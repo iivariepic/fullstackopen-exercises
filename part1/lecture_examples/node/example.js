@@ -1,6 +1,9 @@
-const average = function(a, b) {
-  return (a + b) / 2
+const arto = {
+  name: 'Arto Hellas',
+  greet: function() {
+    console.log('hello, my name is ' + this.name)
+  },
 }
 
-const result = average(2, 5)
-// result is now 3.5
+
+setTimeout(arto.greet, 1000)
