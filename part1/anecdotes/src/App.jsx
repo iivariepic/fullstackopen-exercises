@@ -12,7 +12,17 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
+  const createVoteObject = (number) => {
+    // Function to initialize the votes tracking object
+    let voteObject = {}
+    for (let i = 0; i < number; i++) {
+      voteObject[i] = 0
+    }
+    return voteObject
+  }
+
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(createVoteObject(anecdotes.length))
 
   const nextAnecdote = () => {
     let randomInt = Math.floor(Math.random() * anecdotes.length)
@@ -24,11 +34,25 @@ const App = () => {
     setSelected(randomInt)
   }
 
+  const voteOnSelected = () => {
+    const newVotes = {
+      ...votes,
+      [selected]: votes[selected] + 1
+    };
+    setVotes(newVotes);
+  }
+
   return (
-    <div>
-      {anecdotes[selected]}
-      <button onClick={nextAnecdote} style={{display: "block"}}>next anecdote</button>
-    </div>
+    <>
+      <div>
+        <label style={{display: "block"}}>{anecdotes[selected]}</label>
+        <label style={{display: "block"}}>has {votes[selected]} votes</label>
+      </div>
+      <div>
+        <button onClick={voteOnSelected}>vote</button>
+        <button onClick={nextAnecdote}>next anecdote</button>
+      </div>
+    </>
   )
 }
 
