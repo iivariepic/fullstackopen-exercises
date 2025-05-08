@@ -4,6 +4,31 @@ const Header = ({ text }) => <h1>{text}</h1>
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 const StatsLabel = ({ text, number }) => <label style={{display: "block"}}>{text} {number}</label>
 
+const Statistics = ({ feedback }) => {
+  const all = Object.values(feedback).reduce((sum, num) => sum + num, 0);
+  const feedbackMap = {
+    good: 1,
+    neutral: 0,
+    bad: -1
+  };
+  const weightedSum = Object.entries(feedback).reduce((sum, [level, count]) =>
+  {return sum + (feedbackMap[level] * count)}, 0);
+  const average = all === 0 ? 0: weightedSum / all
+  const goodPercentage = all === 0 ? 0: ((feedback.good / all) * 100)
+
+  return (
+    <div>
+      <Header text="statistics"/>
+      <StatsLabel text="good" number={feedback.good}/>
+      <StatsLabel text="neutral" number={feedback.neutral}/>
+      <StatsLabel text="bad" number={feedback.bad}/>
+      <StatsLabel text="all" number={all}/>
+      <StatsLabel text="average" number={average}/>
+      <StatsLabel text="positive" number={goodPercentage.toString().concat("%")}/>
+    </div>
+  )
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [feedback, setFeedback] = useState({
@@ -17,21 +42,6 @@ const App = () => {
     })
   }
 
-  const all = Object.values(feedback).reduce((sum, num) => sum + num, 0);
-
-  const feedbackMap = {
-    good: 1,
-    neutral: 0,
-    bad: -1
-  };
-
-  const weightedSum = Object.entries(feedback).reduce((sum, [level, count]) =>
-  {return sum + (feedbackMap[level] * count)}, 0);
-
-  const average = all === 0 ? 0: weightedSum / all
-
-  const goodPercentage = all === 0 ? 0: ((feedback.good / all) * 100)
-
   return (
     <>
       <div className="Buttons">
@@ -40,15 +50,7 @@ const App = () => {
         <Button text="neutral" onClick={()=> buttonPressed("neutral")}/>
         <Button text="bad" onClick={()=> buttonPressed("bad")}/>
       </div>
-      <div className="Statistics">
-        <Header text="statistics"/>
-        <StatsLabel text="good" number={feedback.good}/>
-        <StatsLabel text="neutral" number={feedback.neutral}/>
-        <StatsLabel text="bad" number={feedback.bad}/>
-        <StatsLabel text="all" number={all}/>
-        <StatsLabel text="average" number={average}/>
-        <StatsLabel text="positive" number={goodPercentage.toString().concat("%")}/>
-      </div>
+      <Statistics feedback={feedback}/>
     </>
   )
 }
