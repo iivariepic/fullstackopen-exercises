@@ -1,5 +1,14 @@
 import { useState } from 'react'
 
+const Anecdote = ({anecdote, voteCount}) => {
+  return (
+    <>
+      <label style={{display: "block"}}>{anecdote}</label>
+      <label style={{display: "block"}}>has {voteCount} votes</label>
+    </>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -42,15 +51,21 @@ const App = () => {
     setVotes(newVotes);
   }
 
+  const maxVotesKey = Object.keys(votes).reduce((a, b) => votes[a] > votes[b] ? a : b);
+
   return (
     <>
       <div>
-        <label style={{display: "block"}}>{anecdotes[selected]}</label>
-        <label style={{display: "block"}}>has {votes[selected]} votes</label>
+        <h1>Anecdote of the day</h1>
+        <Anecdote anecdote={anecdotes[selected]} voteCount={votes[selected]}/>
       </div>
       <div>
         <button onClick={voteOnSelected}>vote</button>
         <button onClick={nextAnecdote}>next anecdote</button>
+      </div>
+      <div>
+        <h1>Anecdote with the most votes</h1>
+        <Anecdote anecdote={anecdotes[maxVotesKey]} voteCount={votes[maxVotesKey]}/>
       </div>
     </>
   )
