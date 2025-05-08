@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 const Header = ({ text }) => <h1>{text}</h1>
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
-const StatisticLine = ({ text, number }) => <label style={{display: "block"}}>{text} {number}</label>
+const StatisticLine = ({ text, number }) => <tr><td>{text}</td><td>{number}</td></tr>
 
 const Statistics = ({ feedback }) => {
   const all = Object.values(feedback).reduce((sum, num) => sum + num, 0);
@@ -29,12 +29,16 @@ const Statistics = ({ feedback }) => {
   return (
     <div>
       <Header text="statistics"/>
-      <StatisticLine text="good" number={feedback.good}/>
-      <StatisticLine text="neutral" number={feedback.neutral}/>
-      <StatisticLine text="bad" number={feedback.bad}/>
-      <StatisticLine text="all" number={all}/>
-      <StatisticLine text="average" number={average}/>
-      <StatisticLine text="positive" number={goodPercentage.toString().concat("%")}/>
+      <table>
+        <tbody>
+          <StatisticLine text="good" number={feedback.good}/>
+          <StatisticLine text="neutral" number={feedback.neutral}/>
+          <StatisticLine text="bad" number={feedback.bad}/>
+          <StatisticLine text="all" number={all}/>
+          <StatisticLine text="average" number={average}/>
+          <StatisticLine text="positive" number={goodPercentage.toString().concat("%")}/>
+        </tbody>
+      </table>
     </div>
   )
 }
