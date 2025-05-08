@@ -6,23 +6,48 @@ const StatsLabel = ({ text, number }) => <label style={{display: "block"}}>{text
 
 const App = () => {
   // save clicks of each button to its own state
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
+  const [feedback, setFeedback] = useState({
+    good: 0, neutral: 0, bad: 0
+  })
+
+  const buttonPressed = (satisfactionLevel) => {
+    setFeedback({
+      ...feedback,
+    [satisfactionLevel]: feedback[satisfactionLevel] + 1
+    })
+  }
+
+  const all = Object.values(feedback).reduce((sum, num) => sum + num, 0);
+
+  const feedbackMap = {
+    good: 1,
+    neutral: 0,
+    bad: -1
+  };
+
+  const weightedSum = Object.entries(feedback).reduce((sum, [level, count]) =>
+  {return sum + (feedbackMap[level] * count)}, 0);
+
+  const average = all === 0 ? 0: weightedSum / all
+
+  const goodPercentage = all === 0 ? 0: ((feedback.good / all) * 100)
 
   return (
     <>
       <div className="Buttons">
         <Header text="give feedback"/>
-        <Button text="good" onClick={() => setGood(good + 1)}/>
-        <Button text="neutral" onClick={() => setNeutral(neutral + 1)}/>
-        <Button text="bad" onClick={() => setBad(bad + 1)}/>
+        <Button text="good" onClick={()=> buttonPressed("good")}/>
+        <Button text="neutral" onClick={()=> buttonPressed("neutral")}/>
+        <Button text="bad" onClick={()=> buttonPressed("bad")}/>
       </div>
       <div className="Statistics">
         <Header text="statistics"/>
-        <StatsLabel text="good" number={good}/>
-        <StatsLabel text="neutral" number={neutral}/>
-        <StatsLabel text="bad" number={bad}/>
+        <StatsLabel text="good" number={feedback.good}/>
+        <StatsLabel text="neutral" number={feedback.neutral}/>
+        <StatsLabel text="bad" number={feedback.bad}/>
+        <StatsLabel text="all" number={all}/>
+        <StatsLabel text="average" number={average}/>
+        <StatsLabel text="positive" number={goodPercentage.toString().concat("%")}/>
       </div>
     </>
   )
