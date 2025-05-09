@@ -9,6 +9,7 @@ const Content = ({ course }) => {
         <Part key={index} part={part}/>
       ))
       }
+      <Total course={course}/>
     </>
   )
 }
