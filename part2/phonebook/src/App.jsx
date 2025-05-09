@@ -20,6 +20,14 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
+
+    // Prevent submission if name exists
+    const nameExists = persons.some(person => person.name === newName)
+    if (nameExists) {
+      alert(`${newName} is already added to phonebook`)
+      return
+    }
+
     setPersons([
       ...persons,
       {name: newName}
