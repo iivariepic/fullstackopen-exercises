@@ -1,11 +1,11 @@
 import personService from '../services/persons'
 
 const deletePerson = ({ person, setPersons }) => {
-  if (window.confirm(`Delete ${person.name}?`)) {
+  if (window.confirm(`Delete ${person.name} ?`)) {
     personService
       .deleteName(person.id)
       .then(() => {
-        setPersons(prev => prev.filter(p => p.id !== person.id))
+        setPersons(...persons => persons.filter(p => p.id !== person.id))
       })
       .catch(() => {
         alert(`${person.name} was already deleted from server`)
