@@ -1,7 +1,7 @@
 import { useState } from "react"
 import personService from '../services/persons'
 
-const NewPersonForm = ({ persons, setPersons }) => {
+const NewPersonForm = ({ persons, setPersons, setNotification }) => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
 
@@ -20,6 +20,10 @@ const NewPersonForm = ({ persons, setPersons }) => {
             setNewName('')
             setNewNumber('')
           })
+        setNotification({
+          message: `Changed the number of ${newName}`,
+          isError: false
+        })
       }
       return
     }
@@ -32,6 +36,10 @@ const NewPersonForm = ({ persons, setPersons }) => {
         setNewName('')
         setNewNumber('')
       })
+    setNotification({
+      message: `Added ${newName}`,
+      isError: false
+    })
   }
 
   return (

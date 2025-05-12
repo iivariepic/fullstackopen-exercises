@@ -20,3 +20,7 @@ Exercise 2.13
 Exercise 2.14
 <br>
 Exercise 2.15
+<br>
+Exercise 2.16
+<br>
+Exercise 2.17

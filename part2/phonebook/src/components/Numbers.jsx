@@ -1,32 +1,44 @@
 import personService from '../services/persons'
 
-const deletePerson = ({ person, setPersons }) => {
-  if (window.confirm(`Delete ${person.name} ?`)) {
+const deletePerson = ({ person, setPersons, setNotification }) => {
+  if (window.confirm(`Delete ${person.name}?`)) {
     personService
       .deleteName(person.id)
       .then(() => {
-        setPersons(...persons => persons.filter(p => p.id !== person.id))
+        setPersons(prev => prev.filter(p => p.id !== person.id))
+        setNotification({
+          message: `Deleted ${person.name}`,
+          isError: false
+        })
       })
       .catch(() => {
-        alert(`${person.name} was already deleted from server`)
+        setNotification({
+          message: `Information of ${person.name} has already been removed from server`,
+          isError: true
+        })
         setPersons(prev => prev.filter(p => p.id !== person.id))
       })
   }
 }
 
-const DeleteButton = ({ person, setPersons }) => (
-  <button onClick={() => deletePerson({ person, setPersons })}>
+const DeleteButton = ({ person, setPersons, setNotification }) => (
+  <button onClick={() => deletePerson({ person, setPersons, setNotification})}>
     delete
   </button>
 )
 
-const Person = ({ person, setPersons }) => (
+const Person = ({ person, setPersons, setNotification }) => (
   <li>
-    {person.name} {person.number} <DeleteButton person={person} setPersons={setPersons} />
+    {person.name} {person.number}
+    <DeleteButton
+    person={person}
+    setPersons={setPersons}
+    setNotification = {setNotification}
+  />
   </li>
 )
 
-const Numbers = ({ persons, setPersons, searchQuery }) => {
+const Numbers = ({ persons, setPersons, searchQuery, setNotification }) => {
   const filteredPersons = persons.filter(p =>
     p.name.toLowerCase().includes(searchQuery.toLowerCase())
   )
@@ -38,7 +50,12 @@ const Numbers = ({ persons, setPersons, searchQuery }) => {
         ? <li>No persons found.</li>
         : <>
           {filteredPersons.map(person => (
-            <Person key={person.id} person={person} setPersons={setPersons} />
+            <Person
+              key={person.id}
+              person={person}
+              setPersons={setPersons}
+              setNotification={setNotification}
+            />
           ))}
         </>
       }
