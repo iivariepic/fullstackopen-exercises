@@ -8,7 +8,7 @@ const SearchBar = ({ persons, setFilteredPersons }) => {
     person.name.toLowerCase().includes(tempSearch.toLowerCase())
 
   const filterPersons = () => {
-    if (searchQuery === "") {
+    if (tempSearch === "") {
       setFilteredPersons([...persons])
       return
     }

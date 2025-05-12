@@ -12,3 +12,5 @@ Exercise 2.9
 Exercise 2.10
 <br>
 Exercise 2.11
+<br>
+Exercise 2.12
