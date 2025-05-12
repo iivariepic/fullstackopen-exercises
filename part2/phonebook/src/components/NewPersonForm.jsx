@@ -23,7 +23,10 @@ const NewPersonForm = ({ persons, setPersons, setNotification }) => {
         setNotification({
           message: `Changed the number of ${newName}`,
           isError: false
-        })
+        });
+        setTimeout(() => {
+          setNotification({ message: null, isError: false });
+        }, 5000);
       }
       return
     }
@@ -39,7 +42,10 @@ const NewPersonForm = ({ persons, setPersons, setNotification }) => {
     setNotification({
       message: `Added ${newName}`,
       isError: false
-    })
+    });
+    setTimeout(() => {
+      setNotification({ message: null, isError: false });
+    }, 5000);
   }
 
   return (

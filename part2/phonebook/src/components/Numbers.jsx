@@ -10,12 +10,18 @@ const deletePerson = ({ person, setPersons, setNotification }) => {
           message: `Deleted ${person.name}`,
           isError: false
         })
+        setTimeout(() => {
+          setNotification({ message: null, isError: false });
+        }, 5000);
       })
       .catch(() => {
         setNotification({
           message: `Information of ${person.name} has already been removed from server`,
           isError: true
         })
+        setTimeout(() => {
+          setNotification({ message: null, isError: false });
+        }, 5000);
         setPersons(prev => prev.filter(p => p.id !== person.id))
       })
   }
