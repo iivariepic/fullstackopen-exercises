@@ -14,3 +14,5 @@ Exercise 2.10
 Exercise 2.11
 <br>
 Exercise 2.12
+<br>
+Exercise 2.13
