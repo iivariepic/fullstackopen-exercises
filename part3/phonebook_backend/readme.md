@@ -1,5 +1,5 @@
 # Phonebook backend
-Link to deployed app: https://phonebook-iivari-anttila.fly.dev/info
+Link to deployed app: https://phonebook-iivari-anttila.fly.dev
 This is a phonebook app made with node.js and was created in the following exercises:
 
 Exercise 3.1
