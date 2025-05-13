@@ -1,5 +1,5 @@
 # Phonebook backend
-(As of exercise 3.9, this contains the dist file from the front-end build as well)<br>
+Link to deployed app: https://phonebook-iivari-anttila.fly.dev/info
 This is a phonebook app made with node.js and was created in the following exercises:
 
 Exercise 3.1
