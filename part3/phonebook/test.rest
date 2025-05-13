@@ -1,11 +1,34 @@
 ### Delete person with ID
 DELETE http://localhost:3001/api/persons/1
 
-### Confirm deletion
-GET http://localhost:3001/api/persons/1
-Accept: application/json
-
 ### Add a new person
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "name": "Bob Bober",
+  "number": "123-412897"
+}
+
+### Try to add a person without a 'name'
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "first-name": "John",
+  "number": "123-123123"
+}
+
+### Try to add a person without a 'number'
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "name": "John Steel",
+  "phone-num": "456-456456"
+}
+
+### Try to add a person with a duplicate name
 POST http://localhost:3001/api/persons
 Content-Type: application/json
 
