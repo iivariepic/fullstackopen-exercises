@@ -25,3 +25,7 @@ Exercise 3.10
 Exercise 3.11
 <br>
 Exercise 3.12
+<br>
+Exercise 3.13
+<br>
+Exercise 3.14
