@@ -29,3 +29,17 @@ Exercise 3.12
 Exercise 3.13
 <br>
 Exercise 3.14
+<br>
+Exercise 3.15
+<br>
+Exercise 3.16
+<br>
+Exercise 3.17
+<br>
+Exercise 3.18
+<br>
+Exercise 3.19
+<br>
+Exercise 3.20
+<br>
+Exercise 3.21 (I did the deployment constantly so this exercise has no commits)
