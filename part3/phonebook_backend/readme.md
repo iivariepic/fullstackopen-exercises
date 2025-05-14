@@ -19,3 +19,9 @@ Exercise 3.7
 Exercise 3.8
 <br>
 Exercise 3.9
+<br>
+Exercise 3.10
+<br>
+Exercise 3.11
+<br>
+Exercise 3.12
