@@ -19,11 +19,15 @@ const NewPersonForm = ({ persons, setPersons, setNotification }) => {
             setPersons(persons.map(person => person.id === existingPerson.id ? returnedPerson : person))
             setNewName('')
             setNewNumber('')
+            setNotification({
+              message: `Changed the number of ${newName}`,
+              isError: false
+            });
           })
-        setNotification({
-          message: `Changed the number of ${newName}`,
-          isError: false
-        });
+          .catch(error => {
+            setNotification({ message: error.response.data.error, isError: true })
+          })
+
         setTimeout(() => {
           setNotification({ message: null, isError: false });
         }, 5000);
@@ -38,11 +42,14 @@ const NewPersonForm = ({ persons, setPersons, setNotification }) => {
         setPersons([...persons, returnedPerson])
         setNewName('')
         setNewNumber('')
+        setNotification({
+          message: `Added ${newName}`,
+          isError: false
+        })
       })
-    setNotification({
-      message: `Added ${newName}`,
-      isError: false
-    });
+      .catch(error => {
+        setNotification({ message: error.response.data.error, isError: true })
+      })
     setTimeout(() => {
       setNotification({ message: null, isError: false });
     }, 5000);
