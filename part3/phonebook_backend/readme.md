@@ -43,3 +43,5 @@ Exercise 3.19
 Exercise 3.20
 <br>
 Exercise 3.21 (I did the deployment constantly so this exercise has no commits)
+<br>
+Exercise 3.22
