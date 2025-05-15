@@ -1,0 +1,10 @@
+### Add a blog
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "I ate the best pizza today!",
+  "author": "Iivari Anttila",
+  "url": "http://localhost:3003/api/blogs/1",
+  "likes": 3000
+}
