@@ -36,3 +36,21 @@ describe('favourite blog', () => {
     assert.strictEqual(listHelper.favouriteBlog([]), null)
   })
 })
+
+describe('most blogs', () => {
+  test('when list has multiple blogs, returns the author with the most blogs and the amount of blogs', () => {
+    const result = listHelper.mostBlogs(blogs)
+    const DESIRED_RESULT = { author: "Robert C. Martin", blogs: 3 }
+    assert.deepStrictEqual(result, DESIRED_RESULT)
+  })
+  test('when list has one blog, returns the author of that blog and the value 1', () => {
+    const result = listHelper.mostBlogs(listWithOneBlog)
+    const DESIRED_RESULT = { author: "Edsger W. Dijkstra", blogs: 1 }
+    assert.deepStrictEqual(result, DESIRED_RESULT)
+  })
+  test('when list has no blogs, returns an empty object', () => {
+    const result = listHelper.mostBlogs([])
+    const DESIRED_RESULT = {}
+    assert.deepStrictEqual(result, DESIRED_RESULT)
+  })
+})
