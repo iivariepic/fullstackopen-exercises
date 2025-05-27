@@ -33,6 +33,28 @@ test('unique identifier is named \'id\'', async () => {
   }
 })
 
+test('new blog post is created successfully', async () => {
+  const newBlog = {
+    title: 'Go To Statement Considered Harmful',
+    author: 'Edsger W. Dijkstra',
+    url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+    likes: 5,
+  }
+
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const returnedBlog = response.body
+
+  assert.strictEqual(returnedBlog.title, newBlog.title)
+  assert.strictEqual(returnedBlog.author, newBlog.author)
+  assert.strictEqual(returnedBlog.url, newBlog.url)
+  assert.strictEqual(returnedBlog.likes, newBlog.likes)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
