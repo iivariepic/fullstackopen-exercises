@@ -55,6 +55,24 @@ test('new blog post is created successfully', async () => {
   assert.strictEqual(returnedBlog.likes, newBlog.likes)
 })
 
+test('undefined like amount defaults to 0', async () => {
+  const newBlog = {
+    title: 'Go To Statement Considered Harmful',
+    author: 'Edsger W. Dijkstra',
+    url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+  }
+
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const returnedBlog = response.body
+
+  assert.strictEqual(returnedBlog.likes, 0)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
