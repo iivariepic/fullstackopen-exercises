@@ -97,6 +97,24 @@ test('undefined url returns status code 400', async () => {
     .expect(400)
 })
 
+test('remove blog', async () => {
+  const newBlog = {
+    title: 'Go To Statement Considered Harmful',
+    author: 'Edsger W. Dijkstra',
+    url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+  }
+
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const deletion = await api
+    .delete(`/api/blogs/${response.body.id}`)
+    .expect(204)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
