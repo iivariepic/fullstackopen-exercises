@@ -108,11 +108,33 @@ test('remove blog', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(201)
-    .expect('Content-Type', /application\/json/)
 
-  const deletion = await api
+  await api
     .delete(`/api/blogs/${response.body.id}`)
     .expect(204)
+})
+
+test('update blog information', async () => {
+  const newBlog = {
+    title: 'Go To Statement Considered Harmful',
+    author: 'Edsger W. Dijkstra',
+    url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+  }
+
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+
+  newBlog.likes = 1
+
+  const updatedBlog = await api
+    .put(`/api/blogs/${response.body.id}`)
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  assert.strictEqual(updatedBlog.body.likes, newBlog.likes)
 })
 
 after(async () => {
