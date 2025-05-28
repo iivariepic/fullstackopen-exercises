@@ -59,7 +59,35 @@ const listWithOneBlog = [
   }
 ]
 
+const existingUser = {
+  "username": "root",
+  "name": "Superuser",
+  "password": "salainen"
+}
+
+const tooShortUsername = {
+  "username": "ab",
+  "name": "Aatu Bolle",
+  "password": "salainen2"
+}
+
+const tooShortPassword = {
+  "username": "aatu_b",
+  "name": "Aatu Bolle",
+  "password": "ab"
+}
+
+const newUser = {
+  "username": "sami_12",
+  "name": "Sami Suomalainen",
+  "password": "salainen3"
+}
+
 module.exports = {
   blogs,
-  listWithOneBlog
+  listWithOneBlog,
+  existingUser,
+  tooShortUsername,
+  tooShortPassword,
+  newUser
 }
