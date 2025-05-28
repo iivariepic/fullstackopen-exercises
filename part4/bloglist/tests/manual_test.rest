@@ -6,7 +6,8 @@ Content-Type: application/json
   "title": "I ate the best pizza today!",
   "author": "Iivari Anttila",
   "url": "http://localhost:3003/api/blogs/1",
-  "likes": 3000
+  "likes": 3000,
+  "user": "6836f31fa626ea505028dc80"
 }
 
 ### Add a user
@@ -14,7 +15,7 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username": "root",
+    "username": "root2",
     "name": "Superuser",
-    "password": "salainen"
+    "password": "salainen",
 }

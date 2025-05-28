@@ -5,6 +5,7 @@ const assert = require('node:assert')
 const app = require('../app')
 const Blog = require('../models/blog')
 const { blogs } = require('./dummy_data')
+const User = require("../models/user");
 
 const api = supertest(app)
 
@@ -12,6 +13,7 @@ beforeEach(async () => {
   await Blog.deleteMany({})
   for (const blog of blogs) {
     const blogObject = new Blog(blog)
+    blog.user = await User.findOne({})
     await blogObject.save()
   }
 })
