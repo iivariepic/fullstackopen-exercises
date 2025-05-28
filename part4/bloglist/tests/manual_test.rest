@@ -8,3 +8,13 @@ Content-Type: application/json
   "url": "http://localhost:3003/api/blogs/1",
   "likes": 3000
 }
+
+### Add a user
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "root",
+    "name": "Superuser",
+    "password": "salainen"
+}
