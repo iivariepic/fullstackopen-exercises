@@ -1,13 +1,13 @@
 ### Add a blog
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY4MzZmMzFmYTYyNmVhNTA1MDI4ZGM4MCIsImlhdCI6MTc0ODQzNTI4Mn0.o14m2Fczk-rCg8KPbxUvZGP6mPtHU2myjX2yxTQV9Jc
 
 {
   "title": "I ate the best pizza today!",
   "author": "Iivari Anttila",
   "url": "http://localhost:3003/api/blogs/1",
-  "likes": 3000,
-  "user": "6836f31fa626ea505028dc80"
+  "likes": 3000
 }
 
 ### Add a user
