@@ -4,9 +4,9 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY4MzZmMzFmYTYyNmVhNTA1MDI4ZGM4MCIsImlhdCI6MTc0ODQzNTI4Mn0.o14m2Fczk-rCg8KPbxUvZGP6mPtHU2myjX2yxTQV9Jc
 
 {
-  "title": "I ate the best pizza today!",
+  "title": "I am not hungry anymore!",
   "author": "Iivari Anttila",
-  "url": "http://localhost:3003/api/blogs/1",
+  "url": "http://localhost:3003/api/blogs/3",
   "likes": 3000
 }
 
