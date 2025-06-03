@@ -1,7 +1,7 @@
 import blogService from '../services/blogs'
 import { useState } from 'react'
 
-const NewBlog = ({ blogs, setBlogs }) => {
+const NewBlog = ({ setBlogs, setNotification }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -21,8 +21,21 @@ const NewBlog = ({ blogs, setBlogs }) => {
       setAuthor('')
       setUrl('')
       setBlogs(prevBlogs => prevBlogs.concat(createdBlog))
+      setNotification({
+        message: `a new blog ${createdBlog.title} by ${createdBlog.author} added`,
+        isError: false
+      })
     } catch (error) {
-      console.log(error)
+      if (error.response) {
+        setNotification({ message: error.response.data, isError: true })
+      } else if (error.request) {
+        setNotification({ message: error.request, isError: true })
+      } else {
+        setNotification({ message: error.message, isError: true })
+      }
+      setTimeout(() => {
+        setNotification({ message: null, isError: false });
+      }, 5000);
     }
   }
 

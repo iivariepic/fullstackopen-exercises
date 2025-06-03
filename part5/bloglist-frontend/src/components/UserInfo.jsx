@@ -1,11 +1,18 @@
 import blogService from '../services/blogs'
 
-const UserInfo = ({ user, setUser }) => {
+const UserInfo = ({ user, setUser, setNotification }) => {
 
   const logout = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
     setUser(null)
     blogService.setToken(null)
+    setNotification({
+      message: `Logged out successfully`,
+      isError: false
+    })
+    setTimeout(() => {
+      setNotification({ message: null, isError: false });
+    }, 5000);
   }
 
   return (

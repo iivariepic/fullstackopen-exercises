@@ -2,7 +2,7 @@ import { useState } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = ({ setUser, setNotification }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -20,8 +20,22 @@ const LoginForm = ({ setUser }) => {
       setUser(user)
       setUsername('')
       setPassword('')
-    } catch (exception) {
-      console.log(exception)
+      setNotification({
+        message: `Logged in as ${user.name}`,
+        isError: false
+      })
+    } catch (error) {
+      if (error.response) {
+        setNotification({ message: error.response.data.error, isError: true })
+      } else if (error.request) {
+        setNotification({ message: error.request, isError: true })
+      } else {
+        setNotification({ message: error.message, isError: true })
+      }
+    } finally {
+      setTimeout(() => {
+        setNotification({ message: null, isError: false });
+      }, 5000);
     }
   }
 
