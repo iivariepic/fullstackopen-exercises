@@ -1,6 +1,6 @@
 import Blog from '../components/Blog'
 
-const BlogList = ({ blogs}) => {
+const BlogList = ({ blogs }) => {
   return (
     <div>
       {blogs.map(blog =>

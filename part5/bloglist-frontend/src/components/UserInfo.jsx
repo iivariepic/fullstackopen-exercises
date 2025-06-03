@@ -1,8 +1,11 @@
+import blogService from '../services/blogs'
+
 const UserInfo = ({ user, setUser }) => {
 
   const logout = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
     setUser(null)
+    blogService.setToken(null)
   }
 
   return (
