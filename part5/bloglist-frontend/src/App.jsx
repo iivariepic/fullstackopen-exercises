@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import LoginForm from './components/LoginForm.jsx'
 import BlogList from "./components/BlogList.jsx";
 import blogService from './services/blogs'
+import UserInfo from "./components/UserInfo.jsx";
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -13,12 +14,24 @@ const App = () => {
     )  
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+    }
+  }, []);
+
   return (
     <div>
       <h2>blogs</h2>
       {user === null
-      ? <LoginForm setUser={setUser}/>
-      : <BlogList blogs={blogs} user={user}/>}
+        ? <LoginForm setUser={setUser}/>
+        : <div>
+            <UserInfo user={user} setUser={setUser}/>
+            <br/>
+            <BlogList blogs={blogs}/>
+          </div>}
     </div>
   )
 }
