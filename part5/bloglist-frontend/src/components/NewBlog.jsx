@@ -1,7 +1,7 @@
 import blogService from '../services/blogs'
 import { useState } from 'react'
 
-const NewBlog = ({ setBlogs, setNotification }) => {
+const NewBlog = ({ setBlogs, setNotification, setNewBlogVisible }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -21,6 +21,7 @@ const NewBlog = ({ setBlogs, setNotification }) => {
       setAuthor('')
       setUrl('')
       setBlogs(prevBlogs => prevBlogs.concat(createdBlog))
+      setNewBlogVisible(false)
       setNotification({
         message: `a new blog ${createdBlog.title} by ${createdBlog.author} added`,
         isError: false
@@ -66,6 +67,8 @@ const NewBlog = ({ setBlogs, setNotification }) => {
       />
       </div>
       <button type="submit"> create </button>
+      <br/>
+      <button type="button" onClick={() => setNewBlogVisible(false)}> cancel </button>
     </form>
   )
 }

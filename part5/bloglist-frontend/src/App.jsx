@@ -3,13 +3,16 @@ import LoginForm from './components/LoginForm.jsx'
 import BlogList from "./components/BlogList.jsx";
 import blogService from './services/blogs'
 import UserInfo from "./components/UserInfo.jsx";
-import NewBlog from "./components/NewBlog.jsx";
 import Notification from "./components/Notification.jsx";
+import NewBlog from "./components/NewBlog.jsx";
+
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState({message: null, isError: false})
+  const [newBlogVisible, setNewBlogVisible] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -26,18 +29,36 @@ const App = () => {
     }
   }, []);
 
-  return (
+  const PageLayout = ({ children }) => (
     <div>
       <Notification message={notification.message} isError={notification.isError}/>
       <h2>blogs</h2>
-      {user === null
-        ? <LoginForm setUser={setUser} setNotification={setNotification}/>
-        : <div>
-            <UserInfo user={user} setUser={setUser} setNotification={setNotification}/>
-            <NewBlog blogs={blogs} setBlogs={setBlogs} setNotification={setNotification}/>
-            <br/>
-            <BlogList blogs={blogs}/>
-          </div>}
+      {children}
+    </div>
+  )
+
+  if (user === null) {
+    return (
+      <div>
+        <PageLayout>
+          <LoginForm setUser={setUser} setNotification={setNotification}/>
+        </PageLayout>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <PageLayout>
+        <UserInfo user={user} setUser={setUser} setNotification={setNotification}/>
+        <br/>
+        {newBlogVisible
+          ? <NewBlog setBlogs={setBlogs} setNotification={setNotification} setNewBlogVisible={setNewBlogVisible}/>
+          : <div>
+              <button onClick={() => setNewBlogVisible(true)}> new blog </button>
+              <BlogList blogs={blogs}/>
+            </div>}
+      </PageLayout>
     </div>
   )
 }
