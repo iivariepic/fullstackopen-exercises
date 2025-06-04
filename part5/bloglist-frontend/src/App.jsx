@@ -56,7 +56,7 @@ const App = () => {
           ? <NewBlog setBlogs={setBlogs} setNotification={setNotification} setNewBlogVisible={setNewBlogVisible}/>
           : <div>
               <button onClick={() => setNewBlogVisible(true)}> new blog </button>
-              <BlogList blogs={blogs}/>
+              <BlogList blogs={blogs} setBlogs={setBlogs} user={user}/>
             </div>}
       </PageLayout>
     </div>

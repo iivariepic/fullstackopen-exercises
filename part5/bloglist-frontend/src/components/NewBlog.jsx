@@ -34,6 +34,7 @@ const NewBlog = ({ setBlogs, setNotification, setNewBlogVisible }) => {
       } else {
         setNotification({ message: error.message, isError: true })
       }
+    } finally {
       setTimeout(() => {
         setNotification({ message: null, isError: false });
       }, 5000);

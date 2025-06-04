@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, user, changeBlogs, blogs }) => {
   const [expanded, setExpanded] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
@@ -15,6 +15,17 @@ const Blog = ({ blog }) => {
     }
   }
 
+  const deleteBlog = async () => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+      try {
+        await blogService.deleteBlog(blog)
+        changeBlogs([...blogs].filter(b => b.id !== blog.id))
+      } catch (error) {
+        alert("Delete Failed")
+      }
+    }
+  }
+
   const collapsedView =
     <div className="blog">
       {blog.title} {blog.author} <button onClick={() => setExpanded(true)}> view </button>
@@ -25,7 +36,8 @@ const Blog = ({ blog }) => {
       <div>{blog.title} {blog.author} <button onClick={() => setExpanded(false)}> hide </button></div>
       <div>{blog.url}</div>
       <div>likes {likes} <button onClick={like}> like </button></div>
-      <div>{blog.user.name}</div>
+      {user.id === blog.user.id && (<div><button onClick={deleteBlog}> delete </button></div>)}
+
     </div>
 
   return (

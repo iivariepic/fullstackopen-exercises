@@ -27,7 +27,8 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
     user.blogs = user.blogs.concat(result._id)
     await user.save()
 
-    response.status(201).json(result)
+    const populatedResult = await result.populate('user', { username: 1, name: 1, id: 1 })
+    response.status(201).json(populatedResult)
   } catch (error) {
     if (error.name === 'ValidationError') {
       return response.status(400).send(error.message)
