@@ -7,7 +7,7 @@ const Blog = ({ blog, user, changeBlogs, blogs }) => {
 
   const like = async () => {
     try {
-      const updatedBlog = {...blog, likes: likes + 1}
+      const updatedBlog = { ...blog, likes: likes + 1 }
       await blogService.like(updatedBlog)
       setLikes(likes + 1)
     } catch (error) {

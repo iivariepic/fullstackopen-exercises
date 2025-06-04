@@ -11,13 +11,13 @@ import NewBlog from "./components/NewBlog.jsx";
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [notification, setNotification] = useState({message: null, isError: false})
+  const [notification, setNotification] = useState({ message: null, isError: false })
   const [newBlogVisible, setNewBlogVisible] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {

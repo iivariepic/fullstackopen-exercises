@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
@@ -47,7 +48,7 @@ const LoginForm = ({ setUser, setNotification }) => {
           type="text"
           value={username}
           name="Username"
-          onChange={({target}) => setUsername(target.value)}
+          onChange={({ target }) => setUsername(target.value)}
         />
       </div>
       <div>
@@ -62,6 +63,11 @@ const LoginForm = ({ setUser, setNotification }) => {
       <button type="submit">login</button>
     </form>
   )
+}
+
+LoginForm.propTypes = {
+  setUser: PropTypes.func.isRequired,
+  setNotification: PropTypes.func.isRequired,
 }
 
 export default LoginForm
