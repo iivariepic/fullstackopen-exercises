@@ -32,7 +32,7 @@ const Blog = ({ blog, user, changeBlogs, blogs }) => {
     </div>
 
   const expandedView =
-    <div className="blog">
+    <div className="blog" data-testid="blog-expanded">
       <div>{blog.title} {blog.author} <button onClick={() => setExpanded(false)}> hide </button></div>
       <div>{blog.url}</div>
       <div>likes {likes} <button onClick={like}> like </button></div>
