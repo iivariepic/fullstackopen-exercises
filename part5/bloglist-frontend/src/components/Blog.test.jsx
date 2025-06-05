@@ -1,6 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
+import blogService from '../services/blogs'
+
+vi.mock('../services/blogs')
 
 // Components and objects used in tests:
 const user = {
@@ -34,11 +37,28 @@ test('renders likes and url when expanded', async () => {
     <Blog blog={blog} user={user}/>
   )
 
-  const interactiveUser = userEvent.setup
+  const interactiveUser = userEvent.setup()
   const button = screen.getByText('view')
-  await interactiveUser().click(button)
+  await interactiveUser.click(button)
 
   const element = screen.getByTestId('blog-expanded')
   expect(element).toHaveTextContent(`likes ${blog.likes}`)
   expect(element).toHaveTextContent(blog.url)
+})
+
+test('Call the like function twice after the like button has been pressed twice', async () => {
+  render(
+    <Blog blog={blog} user={user}/>
+  )
+  // Expand the view
+  const interactiveUser = userEvent.setup()
+  const button = screen.getByText('view')
+  await interactiveUser.click(button)
+
+  // Click like twice
+  const likeButton = screen.getByText('like')
+  await interactiveUser.click(likeButton)
+  await interactiveUser.click(likeButton)
+
+  expect(blogService.like.mock.calls).toHaveLength(2)
 })

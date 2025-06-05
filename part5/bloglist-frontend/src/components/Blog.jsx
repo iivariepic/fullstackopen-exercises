@@ -40,13 +40,8 @@ const Blog = ({ blog, user, changeBlogs, blogs }) => {
 
     </div>
 
-  return (
-    <>
-      {expanded
-        ? expandedView
-        : collapsedView}
-    </>
-  )
+  return <>{expanded ? expandedView : collapsedView}</>
+
 }
 
 
