@@ -10,6 +10,13 @@ describe('Blog app', () => {
         password: 'salainen'
       }
     })
+    await request.post('http://localhost:3003/api/users', {
+      data: {
+        name: 'Superuser2',
+        username: 'root2',
+        password: 'salainen'
+      }
+    })
 
     await page.goto('http://localhost:5173')
   })
@@ -39,16 +46,24 @@ describe('Blog app', () => {
   })
 
   describe('When logged in', () => {
-    beforeEach(async ({ page }) => {
-      // Log in
-      await page.getByTestId('username').fill('root')
-      await page.getByTestId('password').fill('salainen')
-      await expect(page.getByTestId('password')).toHaveValue('salainen')
-      await page.getByTestId('login-button').click()
-      //
-    })
+    const superuser = {
+      username: 'root',
+      password: 'salainen'
+    }
 
-    const createBlog = async ({ page }) => {
+    const superuser2 = {
+      username: 'root2',
+      password: 'salainen'
+    }
+
+    const logIn = async (page, user) => {
+      await page.getByTestId('username').fill(user.username)
+      await page.getByTestId('password').fill(user.password)
+      await expect(page.getByTestId('password')).toHaveValue(user.password)
+      await page.getByTestId('login-button').click()
+    }
+
+    const createBlog = async (page) => {
       await page.getByTestId('new-blog').click()
       await page.getByTestId('title-input').fill('Today I ate some pears')
       await page.getByTestId('author-input').fill('Iivari Anttila')
@@ -59,7 +74,8 @@ describe('Blog app', () => {
     }
 
     test('a new blog can be created', async ({ page }) => {
-      await createBlog({ page })
+      await logIn(page, superuser)
+      await createBlog(page)
       const blogs = await page.getByTestId('blog-collapsed')
       const count = await blogs.count()
 
@@ -67,7 +83,8 @@ describe('Blog app', () => {
     })
 
     test('can like a blog', async ({ page }) => {
-      await createBlog({ page })
+      await logIn(page, superuser)
+      await createBlog(page)
       const blogs = await page.getByTestId('blog-collapsed')
       await blogs.nth(0).getByTestId("expand-button").click()
       await page.getByTestId("like-button").click()
@@ -75,14 +92,27 @@ describe('Blog app', () => {
     })
 
     test('can delete own blog', async ({ page }) => {
-      await createBlog({ page })
+      await logIn(page, superuser)
+      await createBlog(page)
       const blogs = await page.getByTestId('blog-collapsed')
       await blogs.nth(0).getByTestId("expand-button").click()
       page.on('dialog', dialog => dialog.accept());
       const expandedBlogs = await page.getByTestId('blog-expanded')
       await expandedBlogs.nth(0).getByTestId("delete-button").click()
+      await page.reload();
       await expect(blogs.nth(0)).not.toBeVisible()
       await expect(expandedBlogs.nth(0)).not.toBeVisible()
+    })
+
+    test('delete button is not visible to other users', async ({ page }) => {
+      await logIn(page, superuser)
+      await createBlog(page)
+      await page.getByTestId('logout').click()
+      await logIn(page, superuser2)
+      const blogs = await page.getByTestId('blog-collapsed')
+      await blogs.nth(0).getByTestId("expand-button").click()
+      const expandedBlogs = await page.getByTestId('blog-expanded')
+      await expect(expandedBlogs.nth(0).getByTestId("delete-button")).not.toBeVisible()
     })
   })
 })

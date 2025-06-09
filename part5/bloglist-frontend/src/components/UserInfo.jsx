@@ -18,7 +18,7 @@ const UserInfo = ({ user, setUser, setNotification }) => {
   return (
     <div data-testid="user-info">
       <label>{user.name} logged in</label>
-      <button name="logout" onClick={logout}>log out</button>
+      <button name="logout" data-testid="logout" onClick={logout}>log out</button>
     </div>
   )
 }
