@@ -4,8 +4,8 @@ const Notification = ({ message, isError }) => {
   }
 
   return (
-    isError === true ? <div className='error'>{message}</div>
-      : <div className='success'>{message}</div>
+    isError === true ? <div className='error' data-testid="notification">{message}</div>
+      : <div className='success' data-testid="notification">{message}</div>
   )
 }
 
