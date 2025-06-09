@@ -44,7 +44,7 @@ const NewBlog = ({ setBlogs, setNotification, setNewBlogVisible }) => {
   return (
     <form onSubmit={createBlog}>
       <div>
-        <label htmlFor="title">title:</label>
+        <label htmlFor="title" data-testid="title-input">title:</label>
         <input
           id="title"
           type="text"
@@ -54,7 +54,7 @@ const NewBlog = ({ setBlogs, setNotification, setNewBlogVisible }) => {
         />
       </div>
       <div>
-        <label htmlFor="author">author:</label>
+        <label htmlFor="author" data-testid="author-input">author:</label>
         <input
           id="author"
           type="text"
@@ -64,7 +64,7 @@ const NewBlog = ({ setBlogs, setNotification, setNewBlogVisible }) => {
         />
       </div>
       <div>
-        <label htmlFor="url">url:</label>
+        <label htmlFor="url" data-testid="url-input">url:</label>
         <input
           id="url"
           type="text"
@@ -73,9 +73,9 @@ const NewBlog = ({ setBlogs, setNotification, setNewBlogVisible }) => {
           onChange={({ target }) => setUrl(target.value)}
         />
       </div>
-      <button type="submit"> create </button>
+      <button type="submit" data-testid="create-blog"> create </button>
       <br/>
-      <button type="button" onClick={() => setNewBlogVisible(false)}> cancel </button>
+      <button type="button" data-testid="cancel-new-blog" onClick={() => setNewBlogVisible(false)}> cancel </button>
     </form>
 
   )

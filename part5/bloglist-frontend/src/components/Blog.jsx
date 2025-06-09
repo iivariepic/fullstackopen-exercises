@@ -27,7 +27,7 @@ const Blog = ({ blog, user, changeBlogs, blogs }) => {
   }
 
   const collapsedView =
-    <div className="blog">
+    <div className="blog" data-testid="blog-collapsed">
       {blog.title} {blog.author} <button onClick={() => setExpanded(true)}> view </button>
     </div>
 
