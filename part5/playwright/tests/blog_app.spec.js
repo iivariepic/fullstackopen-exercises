@@ -25,6 +25,7 @@ describe('Blog app', () => {
     test('succeeds with correct credentials', async ({page}) => {
       await page.getByTestId('username').fill('root')
       await page.getByTestId('password').fill('salainen')
+      await expect(page.getByTestId('password')).toHaveValue('salainen')
       await page.getByTestId('login-button').click()
       await expect(page.getByTestId('user-info')).toContainText('Superuser')
     })
@@ -42,11 +43,12 @@ describe('Blog app', () => {
       // Log in
       await page.getByTestId('username').fill('root')
       await page.getByTestId('password').fill('salainen')
+      await expect(page.getByTestId('password')).toHaveValue('salainen')
       await page.getByTestId('login-button').click()
       //
     })
 
-    test('a new blog can be created', async ({ page }) => {
+    const createBlog = async ({ page }) => {
       await page.getByTestId('new-blog').click()
       await page.getByTestId('title-input').fill('Today I ate some pears')
       await page.getByTestId('author-input').fill('Iivari Anttila')
@@ -54,10 +56,22 @@ describe('Blog app', () => {
       await page.getByTestId('create-blog').click()
       await page.getByTestId('user-info')
       await expect(page.getByText('a new blog Today I ate some pears by Iivari Anttila added')).toBeVisible()
+    }
+
+    test('a new blog can be created', async ({ page }) => {
+      await createBlog({ page })
       const blogs = await page.getByTestId('blog-collapsed')
       const count = await blogs.count()
 
       await expect(blogs.nth(count - 1)).toContainText('Today I ate some pears Iivari Anttila')
+    })
+
+    test('can like a blog', async ({ page }) => {
+      await createBlog({ page })
+      const blogs = await page.getByTestId('blog-collapsed')
+      await blogs.nth(0).getByTestId("expand-button").click()
+      await page.getByTestId("like-button").click()
+      await expect(page.getByTestId('blog-expanded')).toContainText(`likes 1`)
     })
   })
 })

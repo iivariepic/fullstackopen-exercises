@@ -28,14 +28,14 @@ const Blog = ({ blog, user, changeBlogs, blogs }) => {
 
   const collapsedView =
     <div className="blog" data-testid="blog-collapsed">
-      {blog.title} {blog.author} <button onClick={() => setExpanded(true)}> view </button>
+      {blog.title} {blog.author} <button data-testid="expand-button" onClick={() => setExpanded(true)}> view </button>
     </div>
 
   const expandedView =
     <div className="blog" data-testid="blog-expanded">
       <div>{blog.title} {blog.author} <button onClick={() => setExpanded(false)}> hide </button></div>
       <div>{blog.url}</div>
-      <div>likes {likes} <button onClick={like}> like </button></div>
+      <div>likes {likes} <button data-testid="like-button" onClick={like}> like </button></div>
       {user.id === blog.user.id && (<div><button onClick={deleteBlog}> delete </button></div>)}
 
     </div>
