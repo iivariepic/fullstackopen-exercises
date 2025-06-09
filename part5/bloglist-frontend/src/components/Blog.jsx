@@ -36,7 +36,7 @@ const Blog = ({ blog, user, changeBlogs, blogs }) => {
       <div>{blog.title} {blog.author} <button onClick={() => setExpanded(false)}> hide </button></div>
       <div>{blog.url}</div>
       <div>likes {likes} <button data-testid="like-button" onClick={like}> like </button></div>
-      {user.id === blog.user.id && (<div><button onClick={deleteBlog}> delete </button></div>)}
+      {user.id === blog.user.id && (<div><button data-testid="delete-button" onClick={deleteBlog}> delete </button></div>)}
 
     </div>
 

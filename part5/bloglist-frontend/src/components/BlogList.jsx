@@ -12,7 +12,7 @@ const BlogList = ({ blogs, setBlogs, user }) => {
   return (
     <div>
       {sortedBlogs.map(blog =>
-        <Blog key={blog.id} blog={blog} user={user} changeBlogs={changeBlogs} blogs={blogs} />
+        <Blog key={blog.id} blog={blog} user={user} changeBlogs={changeBlogs} blogs={sortedBlogs} />
       )}
     </div>
   )

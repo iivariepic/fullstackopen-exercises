@@ -73,5 +73,16 @@ describe('Blog app', () => {
       await page.getByTestId("like-button").click()
       await expect(page.getByTestId('blog-expanded')).toContainText(`likes 1`)
     })
+
+    test('can delete own blog', async ({ page }) => {
+      await createBlog({ page })
+      const blogs = await page.getByTestId('blog-collapsed')
+      await blogs.nth(0).getByTestId("expand-button").click()
+      page.on('dialog', dialog => dialog.accept());
+      const expandedBlogs = await page.getByTestId('blog-expanded')
+      await expandedBlogs.nth(0).getByTestId("delete-button").click()
+      await expect(blogs.nth(0)).not.toBeVisible()
+      await expect(expandedBlogs.nth(0)).not.toBeVisible()
+    })
   })
 })
