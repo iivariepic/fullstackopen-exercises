@@ -32,7 +32,12 @@
     },
     {
       "id": "1715",
-      "content": "Every time you add more than three indents to non HTML code, a coding purist is sent to your location.",
+      "content": "Every time you add more than three indents to non HTML code, a coding style purist will be sent to your location.",
+      "votes": 0
+    },
+    {
+      "id": "f0ad",
+      "content": "If you have even a slight urge to rewrite your code from scratch, someone else reading it will almost certainly feel that urge even more strongly.",
       "votes": 0
     }
   ]
