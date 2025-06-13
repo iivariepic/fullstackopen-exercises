@@ -20,14 +20,14 @@ export const {
 
 let timeoutId
 
-export const setNotification = (message) => {
+export const setNotification = (message, seconds = 5) => {
   return dispatch => {
     clearTimeout(timeoutId)
     dispatch(setNotificationMessage(message))
 
     timeoutId = setTimeout(() => {
       dispatch(clearNotification())
-    }, 5000)
+    }, seconds * 1000)
   }
 }
 export default notificationSlice.reducer
