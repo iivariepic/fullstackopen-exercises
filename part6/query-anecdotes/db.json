@@ -3,7 +3,7 @@
     {
       "content": "If it hurts, do it more often",
       "id": "47145",
-      "votes": 4
+      "votes": 6
     },
     {
       "content": "Adding manpower to a late software project makes it later!",
@@ -39,6 +39,11 @@
       "content": "Coding without testing is like having a discussion without listening.",
       "votes": 0,
       "id": "nBBiCM8"
+    },
+    {
+      "content": "Don't repeat yourself.",
+      "votes": 0,
+      "id": "kp94R3E"
     }
   ]
 }
