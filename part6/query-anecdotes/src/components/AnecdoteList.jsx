@@ -15,7 +15,7 @@ const Anecdote = ({ anecdote, onClick }) =>
 
 const AnecdoteList = () => {
   const queryClient = useQueryClient()
-  const dispatch = useNotificationDispatch()
+  const dispatchNotification = useNotificationDispatch()
 
   const updateAnecdoteMutation = useMutation({
     mutationFn: updateAnecdote,
@@ -23,7 +23,7 @@ const AnecdoteList = () => {
       queryClient.setQueryData(['anecdotes'], (prevAnecdotes) =>
         prevAnecdotes.map(a => a.id === updatedAnecdote.id ? updatedAnecdote : a)
       )
-      dispatch({ type:"UPDATE", payload:`anecdote '${updatedAnecdote.content}' voted` })
+      dispatchNotification({ type:"UPDATE", payload:`anecdote '${updatedAnecdote.content}' voted` })
     }
   })
 

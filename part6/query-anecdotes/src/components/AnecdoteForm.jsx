@@ -4,7 +4,7 @@ import {useNotificationDispatch} from "../NotificationContext.jsx";
 
 const AnecdoteForm = () => {
   const queryClient = useQueryClient()
-  const dispatch = useNotificationDispatch()
+  const dispatchNotification = useNotificationDispatch()
 
   const newAnecdoteMutation = useMutation({
     mutationFn: createAnecdote,
@@ -12,8 +12,11 @@ const AnecdoteForm = () => {
       queryClient.setQueryData(['anecdotes'], (prevAnecdotes) =>
         prevAnecdotes.concat(newAnecdote)
       )
-      dispatch({ type:"UPDATE", payload:`anecdote '${newAnecdote.content}' created` })
+      dispatchNotification({ type:"UPDATE", payload:`anecdote '${newAnecdote.content}' created` })
     },
+    onError: (error) => {
+      dispatchNotification({ type:"UPDATE", payload:`'${error.response.data.error}'` })
+    }
   })
 
   const onCreate = (event) => {
