@@ -1,4 +1,4 @@
-# Anectodes with Redux
+# Anectodes with Query
 
 This application was created in exercises 6.20-6.24 with the base codebase being from:
 
