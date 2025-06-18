@@ -1,18 +1,16 @@
 import blogService from "../services/blogs";
+import { useDispatch } from 'react-redux'
+import { displayNotification } from '../reducers/notificationReducer'
 
-const UserInfo = ({ user, setUser, setNotification }) => {
+const UserInfo = ({ user, setUser}) => {
+  const dispatch = useDispatch()
+
   const logout = () => {
     window.localStorage.removeItem("loggedBlogAppUser");
     setUser(null);
     blogService.setToken(null);
-    setNotification({
-      message: `Logged out successfully`,
-      isError: false,
-    });
-    setTimeout(() => {
-      setNotification({ message: null, isError: false });
-    }, 5000);
-  };
+    dispatch(displayNotification(`Logged out successfully`))
+  }
 
   return (
     <div data-testid="user-info">

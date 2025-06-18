@@ -9,10 +9,6 @@ import NewBlog from "./components/NewBlog.jsx";
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState({
-    message: null,
-    isError: false,
-  });
   const [newBlogVisible, setNewBlogVisible] = useState(false);
 
   useEffect(() => {
@@ -30,10 +26,7 @@ const App = () => {
 
   const PageLayout = ({ children }) => (
     <div>
-      <Notification
-        message={notification.message}
-        isError={notification.isError}
-      />
+      <Notification/>
       <h2>blogs</h2>
       {children}
     </div>
@@ -43,7 +36,7 @@ const App = () => {
     return (
       <div>
         <PageLayout>
-          <LoginForm setUser={setUser} setNotification={setNotification} />
+          <LoginForm setUser={setUser} />
         </PageLayout>
       </div>
     );
@@ -55,13 +48,11 @@ const App = () => {
         <UserInfo
           user={user}
           setUser={setUser}
-          setNotification={setNotification}
         />
         <br />
         {newBlogVisible ? (
           <NewBlog
             setBlogs={setBlogs}
-            setNotification={setNotification}
             setNewBlogVisible={setNewBlogVisible}
           />
         ) : (

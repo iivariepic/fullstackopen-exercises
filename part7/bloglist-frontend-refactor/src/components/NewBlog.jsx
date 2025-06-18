@@ -1,10 +1,14 @@
 import blogService from "../services/blogs";
 import { useState } from "react";
+import { useDispatch } from 'react-redux'
+import { displayNotification } from '../reducers/notificationReducer'
 
-const NewBlog = ({ setBlogs, setNotification, setNewBlogVisible }) => {
+const NewBlog = ({ setBlogs, setNewBlogVisible }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
+
+  const dispatch = useDispatch()
 
   const createBlog = async (event) => {
     event.preventDefault();
@@ -22,22 +26,16 @@ const NewBlog = ({ setBlogs, setNotification, setNewBlogVisible }) => {
       setUrl("");
       setBlogs((prevBlogs) => prevBlogs.concat(createdBlog));
       setNewBlogVisible(false);
-      setNotification({
-        message: `a new blog ${createdBlog.title} by ${createdBlog.author} added`,
-        isError: false,
-      });
+      dispatch(displayNotification(`a new blog ${createdBlog.title} by ${createdBlog.author} added`))
+
     } catch (error) {
       if (error.response) {
-        setNotification({ message: error.response.data, isError: true });
+        dispatch(displayNotification(error.response.data.error, true))
       } else if (error.request) {
-        setNotification({ message: error.request, isError: true });
+        dispatch(displayNotification(error.request, true))
       } else {
-        setNotification({ message: error.message, isError: true });
+        dispatch(displayNotification(error.message, true))
       }
-    } finally {
-      setTimeout(() => {
-        setNotification({ message: null, isError: false });
-      }, 5000);
     }
   };
 

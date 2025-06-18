@@ -2,10 +2,13 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import loginService from "../services/login";
 import blogService from "../services/blogs";
+import { useDispatch } from 'react-redux'
+import { displayNotification } from '../reducers/notificationReducer'
 
-const LoginForm = ({ setUser, setNotification }) => {
+const LoginForm = ({ setUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch()
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -20,24 +23,17 @@ const LoginForm = ({ setUser, setNotification }) => {
       setUser(user);
       setUsername("");
       setPassword("");
-      setNotification({
-        message: `Logged in as ${user.name}`,
-        isError: false,
-      });
+      dispatch(displayNotification(`Logged in as ${user.name}`))
     } catch (error) {
       if (error.response) {
-        setNotification({ message: error.response.data.error, isError: true });
+        dispatch(displayNotification(error.response.data.error, true))
       } else if (error.request) {
-        setNotification({ message: error.request, isError: true });
+        dispatch(displayNotification(error.request, true))
       } else {
-        setNotification({ message: error.message, isError: true });
+        dispatch(displayNotification(error.message, true))
       }
-    } finally {
-      setTimeout(() => {
-        setNotification({ message: null, isError: false });
-      }, 5000);
     }
-  };
+  }
 
   return (
     <form onSubmit={handleLogin}>
@@ -66,11 +62,10 @@ const LoginForm = ({ setUser, setNotification }) => {
       </button>
     </form>
   );
-};
+}
 
 LoginForm.propTypes = {
   setUser: PropTypes.func.isRequired,
-  setNotification: PropTypes.func.isRequired,
 };
 
-export default LoginForm;
+export default LoginForm
