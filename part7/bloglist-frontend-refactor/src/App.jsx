@@ -11,6 +11,7 @@ import { initializeBlogs } from "./reducers/blogReducer";
 import { initializeUsers } from "./reducers/userListReducer";
 import { setUser } from './reducers/userReducer'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import IndividualUser from "./components/IndividualUser.jsx";
 
 const PageLayout = ({ children }) => (
   <div>
@@ -65,6 +66,16 @@ const App = () => {
             <PageLayout>
               <UserInfo/>
               <UserList/>
+            </PageLayout>
+          </RequireLogin>
+        }/>
+
+        {/* Individual User */}
+        <Route path="/users/:id" element={
+          <RequireLogin>
+            <PageLayout>
+              <UserInfo/>
+              <IndividualUser/>
             </PageLayout>
           </RequireLogin>
         }/>
