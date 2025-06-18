@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import LoginForm from "./components/LoginForm.jsx";
 import BlogList from "./components/BlogList.jsx";
 import blogService from "./services/blogs";
-import UserInfo from "./components/UserInfo.jsx";
 import Notification from "./components/Notification.jsx";
 import NewBlog from "./components/NewBlog.jsx";
 import UserList from "./components/UserList.jsx";
@@ -13,13 +12,15 @@ import { setUser } from './reducers/userReducer'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import IndividualUser from "./components/IndividualUser";
 import IndividualBlog from "./components/IndividualBlog";
+import NavBar from "./components/NavBar.jsx";
 
 const PageLayout = ({ children }) => (
-  <div>
+  <RequireLogin>
+    <NavBar/>
     <Notification/>
     <h2>blogs</h2>
     {children}
-  </div>
+  </RequireLogin>
 );
 
 const RequireLogin = ({ children }) => {
@@ -63,67 +64,51 @@ const App = () => {
       <Routes>
         {/* User List */}
         <Route path="/users" element={
-          <RequireLogin>
-            <PageLayout>
-              <UserInfo/>
-              <UserList/>
-            </PageLayout>
-          </RequireLogin>
+          <PageLayout>
+            <UserList/>
+          </PageLayout>
         }/>
 
         {/* Individual User */}
         <Route path="/users/:id" element={
-          <RequireLogin>
-            <PageLayout>
-              <UserInfo/>
-              <IndividualUser/>
-            </PageLayout>
-          </RequireLogin>
+          <PageLayout>
+            <IndividualUser/>
+          </PageLayout>
         }/>
 
         {/* Blog List */}
         <Route path="/"
                element={
-          <RequireLogin>
-           <PageLayout>
-             <UserInfo/>
-             <br />
-             {newBlogVisible ? (
-               <NewBlog
-                 setNewBlogVisible={setNewBlogVisible}
-               />
-             ) : (
-               <div>
-                 <button
-                   data-testid="new-blog"
-                   onClick={() => setNewBlogVisible(true)}
-                 >
-                   {" "}new blog{" "}
-                 </button>
-                 <BlogList/>
-               </div>
-             )}
-           </PageLayout>
-          </RequireLogin>
+         <PageLayout>
+           <br />
+           {newBlogVisible ? (
+             <NewBlog
+               setNewBlogVisible={setNewBlogVisible}
+             />
+           ) : (
+             <div>
+               <button
+                 data-testid="new-blog"
+                 onClick={() => setNewBlogVisible(true)}
+               >
+                 {" "}new blog{" "}
+               </button>
+               <BlogList/>
+             </div>
+           )}
+         </PageLayout>
         }
         />
 
         {/* Individual Blog */}
         <Route path="/blogs/:id" element={
-          <RequireLogin>
-            <PageLayout>
-              <UserInfo/>
-              <IndividualBlog/>
-            </PageLayout>
-          </RequireLogin>
+          <PageLayout>
+            <IndividualBlog/>
+          </PageLayout>
         }/>
 
         {/* Login */}
-        <Route path="/login"
-               element={<PageLayout>
-                 <LoginForm/>
-               </PageLayout>}
-        />
+        <Route path="/login" element={<div><h2>blogs</h2><Notification/><LoginForm/></div>}/>
       </Routes>
     </div>
   );

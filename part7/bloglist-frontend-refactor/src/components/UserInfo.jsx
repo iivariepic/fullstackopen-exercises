@@ -9,18 +9,18 @@ const UserInfo = () => {
 
   const logout = () => {
     window.localStorage.removeItem("loggedBlogAppUser");
-    clearUser()
+    dispatch(clearUser())
     blogService.setToken(null);
     dispatch(displayNotification(`Logged out successfully`))
   }
 
   return (
-    <div data-testid="user-info">
-      <label>{user.name} logged in</label>
+    <>
+      <label>{user.name} logged in </label>
       <button name="logout" data-testid="logout" onClick={logout}>
         log out
       </button>
-    </div>
+    </>
   );
 };
 

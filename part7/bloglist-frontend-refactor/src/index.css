@@ -24,3 +24,10 @@
   border: 1px solid;
   margin-bottom: 5px;
 }
+
+.NavBar {
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  background-color: lightgrey;
+}
