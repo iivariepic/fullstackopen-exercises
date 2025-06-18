@@ -4,8 +4,9 @@ import loginService from "../services/login";
 import blogService from "../services/blogs";
 import { useDispatch } from 'react-redux'
 import { displayNotification } from '../reducers/notificationReducer'
+import { setUser } from "../reducers/userReducer";
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch()
@@ -20,7 +21,7 @@ const LoginForm = ({ setUser }) => {
       });
       window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
       blogService.setToken(user.token);
-      setUser(user);
+      dispatch(setUser(user));
       setUsername("");
       setPassword("");
       dispatch(displayNotification(`Logged in as ${user.name}`))
@@ -63,9 +64,4 @@ const LoginForm = ({ setUser }) => {
     </form>
   );
 }
-
-LoginForm.propTypes = {
-  setUser: PropTypes.func.isRequired,
-};
-
 export default LoginForm

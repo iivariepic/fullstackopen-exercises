@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
-const Blog = ({ blog, user, like, deleteBlog }) => {
+const Blog = ({ blog, like, deleteBlog }) => {
   const [expanded, setExpanded] = useState(false);
+  const user = useSelector(state => state.user)
 
 
   const collapsedView = (

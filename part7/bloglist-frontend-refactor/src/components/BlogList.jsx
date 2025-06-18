@@ -2,8 +2,9 @@ import Blog from "../components/Blog";
 import { useSelector, useDispatch } from 'react-redux'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 
-const BlogList = ({ user }) => {
+const BlogList = () => {
   const blogs = useSelector(state => state.blogs)
+  const user = useSelector(state => state.user)
   const dispatch = useDispatch()
 
   const sortedBlogs= [...blogs].sort((a, b) => b.likes - a.likes)

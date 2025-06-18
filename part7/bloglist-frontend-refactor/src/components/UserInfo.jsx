@@ -1,13 +1,15 @@
 import blogService from "../services/blogs";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { displayNotification } from '../reducers/notificationReducer'
+import { clearUser } from "../reducers/userReducer"
 
-const UserInfo = ({ user, setUser}) => {
+const UserInfo = () => {
   const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
 
   const logout = () => {
     window.localStorage.removeItem("loggedBlogAppUser");
-    setUser(null);
+    clearUser()
     blogService.setToken(null);
     dispatch(displayNotification(`Logged out successfully`))
   }
