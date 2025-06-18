@@ -11,7 +11,8 @@ import { initializeBlogs } from "./reducers/blogReducer";
 import { initializeUsers } from "./reducers/userListReducer";
 import { setUser } from './reducers/userReducer'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
-import IndividualUser from "./components/IndividualUser.jsx";
+import IndividualUser from "./components/IndividualUser";
+import IndividualBlog from "./components/IndividualBlog";
 
 const PageLayout = ({ children }) => (
   <div>
@@ -106,6 +107,16 @@ const App = () => {
           </RequireLogin>
         }
         />
+
+        {/* Individual Blog */}
+        <Route path="/blogs/:id" element={
+          <RequireLogin>
+            <PageLayout>
+              <UserInfo/>
+              <IndividualBlog/>
+            </PageLayout>
+          </RequireLogin>
+        }/>
 
         {/* Login */}
         <Route path="/login"
