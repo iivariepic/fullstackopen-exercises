@@ -2,6 +2,7 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { likeBlog, deleteBlog } from "../reducers/blogReducer";
 import { displayNotification } from "../reducers/notificationReducer";
+import CommentField from "./CommentField";
 
 const IndividualBlog = () => {
   const dispatch = useDispatch()
@@ -36,6 +37,13 @@ const IndividualBlog = () => {
         <div>{blog.likes} likes <button onClick={() => like(blog)}>{" like "}</button></div>
         <div>added by {blog.user.name}</div>
         {user.id === blog.user.id ? <div><button onClick={() => remove(blog)}>{" remove "}</button></div> : null}
+        <div>
+          <h3>comments</h3>
+          <CommentField blog={blog}/>
+          <ul>
+            {blog.comments.map((comment) => (<li key={comment.toString()}>{comment}</li>))}
+          </ul>
+        </div>
       </div>
     </div>
   );

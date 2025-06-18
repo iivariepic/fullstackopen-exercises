@@ -40,6 +40,24 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
   }
 })
 
+blogsRouter.post('/:id/comments', async (request, response) => {
+  const { comment } = request.body
+
+  if (!comment || typeof comment !== 'string' || comment.trim() === '') {
+    return response.status(400).json({ error: 'Comment must be a non-empty string' })
+  }
+
+  const blog = await Blog.findById(request.params.id)
+  if (!blog) {
+    return response.status(400).json({error: 'Blog Id missing or not valid'})
+  }
+
+  blog.comments.push(comment)
+  const updatedBlog = await blog.save()
+
+  response.status(201).json(updatedBlog)
+})
+
 blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
   const blog = await Blog.findById(request.params.id)
   if (!blog) {
