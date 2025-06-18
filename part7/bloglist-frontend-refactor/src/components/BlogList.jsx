@@ -1,17 +1,19 @@
 import Blog from "../components/Blog";
-import { useState } from "react";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 
 const BlogList = ({ user }) => {
   const blogs = useSelector(state => state.blogs)
+  const dispatch = useDispatch()
 
-  const [sortedBlogs, setSortedBlogs] = useState(
-    [...blogs].sort((a, b) => b.likes - a.likes),
-  );
+  const sortedBlogs= [...blogs].sort((a, b) => b.likes - a.likes)
 
-  const changeBlogs = (newBlogs) => {
-    setSortedBlogs([...newBlogs].sort((a, b) => b.likes - a.likes));
-  };
+  const like = blog => {
+    dispatch(likeBlog(blog))
+  }
+  const removeBlog = blog => {
+    dispatch(deleteBlog(blog))
+  }
 
   return (
     <div>
@@ -20,8 +22,8 @@ const BlogList = ({ user }) => {
           key={blog.id}
           blog={blog}
           user={user}
-          changeBlogs={changeBlogs}
-          blogs={sortedBlogs}
+          like={() => like(blog)}
+          deleteBlog={() => removeBlog(blog)}
         />
       ))}
     </div>
