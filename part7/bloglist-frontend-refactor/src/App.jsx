@@ -5,15 +5,13 @@ import blogService from "./services/blogs";
 import UserInfo from "./components/UserInfo.jsx";
 import Notification from "./components/Notification.jsx";
 import NewBlog from "./components/NewBlog.jsx";
+import { useDispatch } from 'react-redux';
+import { initializeBlogs } from "./reducers/blogReducer";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [newBlogVisible, setNewBlogVisible] = useState(false);
-
-  useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
@@ -23,6 +21,10 @@ const App = () => {
       blogService.setToken(user.token);
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   const PageLayout = ({ children }) => (
     <div>
@@ -52,7 +54,6 @@ const App = () => {
         <br />
         {newBlogVisible ? (
           <NewBlog
-            setBlogs={setBlogs}
             setNewBlogVisible={setNewBlogVisible}
           />
         ) : (
@@ -64,7 +65,7 @@ const App = () => {
               {" "}
               new blog{" "}
             </button>
-            <BlogList blogs={blogs} setBlogs={setBlogs} user={user} />
+            <BlogList user={user} />
           </div>
         )}
       </PageLayout>

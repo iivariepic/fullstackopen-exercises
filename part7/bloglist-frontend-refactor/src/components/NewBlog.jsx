@@ -1,16 +1,17 @@
 import blogService from "../services/blogs";
 import { useState } from "react";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { displayNotification } from '../reducers/notificationReducer'
+import { createBlog } from "../reducers/blogReducer.js";
 
-const NewBlog = ({ setBlogs, setNewBlogVisible }) => {
+const NewBlog = ({ setNewBlogVisible }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
 
   const dispatch = useDispatch()
 
-  const createBlog = async (event) => {
+  const create = async (event) => {
     event.preventDefault();
 
     const newBlog = {
@@ -20,13 +21,12 @@ const NewBlog = ({ setBlogs, setNewBlogVisible }) => {
     };
 
     try {
-      const createdBlog = await blogService.create(newBlog);
+      await dispatch(createBlog(newBlog))
       setTitle("");
       setAuthor("");
       setUrl("");
-      setBlogs((prevBlogs) => prevBlogs.concat(createdBlog));
       setNewBlogVisible(false);
-      dispatch(displayNotification(`a new blog ${createdBlog.title} by ${createdBlog.author} added`))
+      dispatch(displayNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`))
 
     } catch (error) {
       if (error.response) {
@@ -40,7 +40,7 @@ const NewBlog = ({ setBlogs, setNewBlogVisible }) => {
   };
 
   return (
-    <form onSubmit={createBlog}>
+    <form onSubmit={create}>
       <div>
         <label htmlFor="title" data-testid="title-input">
           title:

@@ -20,7 +20,7 @@ const create = async (newObject) => {
   return response.data;
 };
 
-const like = async (newObject) => {
+const update = async (newObject) => {
   const url = `${baseUrl}/${newObject.id}`;
   const response = await axios.put(url, newObject);
   return response.data;
@@ -36,4 +36,4 @@ const deleteBlog = async (blog) => {
   return response.data;
 };
 
-export default { getAll, create, setToken, like, deleteBlog };
+export default { getAll, create, setToken, update, deleteBlog };
