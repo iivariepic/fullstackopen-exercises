@@ -5,67 +5,104 @@ import blogService from "./services/blogs";
 import UserInfo from "./components/UserInfo.jsx";
 import Notification from "./components/Notification.jsx";
 import NewBlog from "./components/NewBlog.jsx";
+import UserList from "./components/UserList.jsx";
 import { useDispatch, useSelector } from 'react-redux';
 import { initializeBlogs } from "./reducers/blogReducer";
+import { initializeUsers } from "./reducers/userListReducer";
 import { setUser } from './reducers/userReducer'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+
+const PageLayout = ({ children }) => (
+  <div>
+    <Notification/>
+    <h2>blogs</h2>
+    {children}
+  </div>
+);
+
+const RequireLogin = ({ children }) => {
+  const user = useSelector(state => state.user)
+  const location = useLocation()
+
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location }} replace />
+  }
+
+  return children;
+}
 
 const App = () => {
   const [newBlogVisible, setNewBlogVisible] = useState(false);
+  const [loadingUser, setLoadingUser] = useState(true);
   const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
+
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
+      dispatch(setUser(user));
       blogService.setToken(user.token);
     }
-  }, []);
+    setLoadingUser(false)
+  }, [dispatch]);
 
   useEffect(() => {
-    dispatch(initializeBlogs())
-  }, [dispatch])
+    if (!loadingUser) {
+      dispatch(initializeBlogs())
+      dispatch(initializeUsers())
+    }
+  }, [dispatch, loadingUser])
 
-  const PageLayout = ({ children }) => (
-    <div>
-      <Notification/>
-      <h2>blogs</h2>
-      {children}
-    </div>
-  );
-
-  if (user === null) {
-    return (
-      <div>
-        <PageLayout>
-          <LoginForm/>
-        </PageLayout>
-      </div>
-    );
-  }
+  if (loadingUser) return null
 
   return (
     <div>
-      <PageLayout>
-        <UserInfo/>
-        <br />
-        {newBlogVisible ? (
-          <NewBlog
-            setNewBlogVisible={setNewBlogVisible}
-          />
-        ) : (
-          <div>
-            <button
-              data-testid="new-blog"
-              onClick={() => setNewBlogVisible(true)}
-            >
-              {" "}new blog{" "}
-            </button>
-            <BlogList/>
-          </div>
-        )}
-      </PageLayout>
+      <Routes>
+        {/* User List */}
+        <Route path="/users" element={
+          <RequireLogin>
+            <PageLayout>
+              <UserInfo/>
+              <UserList/>
+            </PageLayout>
+          </RequireLogin>
+        }/>
+
+        {/* Blog List */}
+        <Route path="/"
+               element={
+          <RequireLogin>
+           <PageLayout>
+             <UserInfo/>
+             <br />
+             {newBlogVisible ? (
+               <NewBlog
+                 setNewBlogVisible={setNewBlogVisible}
+               />
+             ) : (
+               <div>
+                 <button
+                   data-testid="new-blog"
+                   onClick={() => setNewBlogVisible(true)}
+                 >
+                   {" "}new blog{" "}
+                 </button>
+                 <BlogList/>
+               </div>
+             )}
+           </PageLayout>
+          </RequireLogin>
+        }
+        />
+
+        {/* Login */}
+        <Route path="/login"
+               element={<PageLayout>
+                 <LoginForm/>
+               </PageLayout>}
+        />
+      </Routes>
     </div>
   );
 };

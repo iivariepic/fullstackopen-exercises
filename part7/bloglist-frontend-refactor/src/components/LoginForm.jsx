@@ -1,15 +1,17 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import loginService from "../services/login";
 import blogService from "../services/blogs";
 import { useDispatch } from 'react-redux'
 import { displayNotification } from '../reducers/notificationReducer'
 import { setUser } from "../reducers/userReducer";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -25,6 +27,10 @@ const LoginForm = () => {
       setUsername("");
       setPassword("");
       dispatch(displayNotification(`Logged in as ${user.name}`))
+
+      const redirectPath = location.state?.from?.pathname || "/"
+      navigate(redirectPath, { replace: true })
+
     } catch (error) {
       if (error.response) {
         dispatch(displayNotification(error.response.data.error, true))
