@@ -1,10 +1,15 @@
-import blogService from "../services/blogs";
 import { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { displayNotification } from '../reducers/notificationReducer'
 import { createBlog } from "../reducers/blogReducer.js";
+import { Link } from "react-router-dom";
+import {
+  Button,
+  TextField,
+  Box
+} from '@mui/material'
 
-const NewBlog = ({ setNewBlogVisible }) => {
+const NewBlog = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -25,7 +30,6 @@ const NewBlog = ({ setNewBlogVisible }) => {
       setTitle("");
       setAuthor("");
       setUrl("");
-      setNewBlogVisible(false);
       dispatch(displayNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`))
 
     } catch (error) {
@@ -41,55 +45,53 @@ const NewBlog = ({ setNewBlogVisible }) => {
 
   return (
     <form onSubmit={create}>
-      <div>
-        <label htmlFor="title" data-testid="title-input">
-          title:
-        </label>
-        <input
+      <h2>Create Blog</h2>
+      <Box display="flex" flexDirection="column" gap={2}>
+        <TextField
           id="title"
           type="text"
           value={title}
           name="title"
+          label="title"
           onChange={({ target }) => setTitle(target.value)}
         />
-      </div>
-      <div>
-        <label htmlFor="author" data-testid="author-input">
-          author:
-        </label>
-        <input
+        <TextField
           id="author"
           type="text"
           value={author}
           name="author"
+          label="author"
           onChange={({ target }) => setAuthor(target.value)}
         />
-      </div>
-      <div>
-        <label htmlFor="url" data-testid="url-input">
-          url:
-        </label>
-        <input
+        <TextField
           id="url"
           type="text"
           value={url}
           name="url"
+          label="url"
           onChange={({ target }) => setUrl(target.value)}
         />
-      </div>
-      <button type="submit" data-testid="create-blog">
-        {" "}
-        create{" "}
-      </button>
-      <br />
-      <button
-        type="button"
-        data-testid="cancel-new-blog"
-        onClick={() => setNewBlogVisible(false)}
-      >
-        {" "}
-        cancel{" "}
-      </button>
+        <Box display="flex" gap={1}>
+          <Button
+            type="submit"
+            data-testid="create-blog"
+            variant="contained"
+            color="primary"
+          >
+            create
+          </Button>
+          <Button
+            type="button"
+            data-testid="cancel-new-blog"
+            variant="contained"
+            color="primary"
+            component={Link}
+            to="/"
+          >
+            cancel
+          </Button>
+        </Box>
+      </Box>
     </form>
   );
 };

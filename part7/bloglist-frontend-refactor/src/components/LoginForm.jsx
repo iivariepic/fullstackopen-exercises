@@ -5,6 +5,10 @@ import { useDispatch } from 'react-redux'
 import { displayNotification } from '../reducers/notificationReducer'
 import { setUser } from "../reducers/userReducer";
 import { useNavigate, useLocation } from "react-router-dom";
+import {
+  Button,
+  TextField
+} from '@mui/material'
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -45,28 +49,33 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleLogin}>
       <div>
-        username
         <br />
-        <input
+        <TextField
           data-testid="username"
+          label="username"
           value={username}
           name="Username"
           onChange={({ target }) => setUsername(target.value)}
         />
       </div>
       <div>
-        password
         <br />
-        <input
+        <TextField
+          label="password"
+          type="password"
           data-testid="password"
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button data-testid="login-button" type="submit">
+      <Button
+        variant="contained"
+        color="primary"
+        data-testid="login-button"
+        type="submit">
         login
-      </button>
+      </Button>
     </form>
   );
 }

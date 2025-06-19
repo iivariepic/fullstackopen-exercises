@@ -1,16 +1,33 @@
 import { Link } from "react-router-dom"
 import UserInfo from "./UserInfo"
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Box
+} from '@mui/material'
+import { useSelector } from 'react-redux'
 
 const NavBar = () => {
-  const padding = {
-    paddingRight: 5
-  }
+  const user = useSelector(state => state.user)
+
   return (
-    <div className="NavBar">
-      <Link style={padding} to="/">blogs</Link>
-      <Link style={padding} to="/users">users</Link>
-      <UserInfo/>
-    </div>
+    <AppBar position="static" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Toolbar>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button color="inherit" component={Link} to="/" sx={{ fontSize: '1.2rem' }}>
+            blogs
+          </Button>
+          <Button color="inherit" component={Link} to="/users" sx={{ fontSize: '1.2rem' }}>
+            users
+          </Button>
+          {user
+            ? <UserInfo/>
+            : null
+          }
+        </Box>
+      </Toolbar>
+    </AppBar>
   )
 }
 

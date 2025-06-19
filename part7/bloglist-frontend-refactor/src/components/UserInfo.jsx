@@ -2,6 +2,11 @@ import blogService from "../services/blogs";
 import { useDispatch, useSelector } from 'react-redux'
 import { displayNotification } from '../reducers/notificationReducer'
 import { clearUser } from "../reducers/userReducer"
+import {
+  Button,
+  Box,
+  Typography
+} from '@mui/material'
 
 const UserInfo = () => {
   const dispatch = useDispatch()
@@ -15,12 +20,17 @@ const UserInfo = () => {
   }
 
   return (
-    <>
-      <label>{user.name} logged in </label>
-      <button name="logout" data-testid="logout" onClick={logout}>
+    <Box display="flex" gap={2} alignItems="center">
+      <Typography variant="body1">{user.name} logged in</Typography>
+      <Button
+        name="logout"
+        data-testid="logout"
+        onClick={logout}
+        variant="contained"
+        color="secondary">
         log out
-      </button>
-    </>
+      </Button>
+    </Box>
   );
 };
 

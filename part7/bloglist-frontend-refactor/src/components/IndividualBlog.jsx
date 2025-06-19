@@ -3,6 +3,17 @@ import { useSelector, useDispatch } from 'react-redux'
 import { likeBlog, deleteBlog } from "../reducers/blogReducer";
 import { displayNotification } from "../reducers/notificationReducer";
 import CommentField from "./CommentField";
+import {
+  Box,
+  Table,
+  TableRow,
+  TableBody,
+  TableContainer,
+  TableCell,
+  Typography,
+  Button,
+  Paper
+} from '@mui/material'
 
 const IndividualBlog = () => {
   const dispatch = useDispatch()
@@ -33,16 +44,33 @@ const IndividualBlog = () => {
     <div>
       <h2>{blog.title}</h2>
       <div>
-        <a href={blog.url}>{blog.url}</a>
-        <div>{blog.likes} likes <button onClick={() => like(blog)}>{" like "}</button></div>
-        <div>added by {blog.user.name}</div>
-        {user.id === blog.user.id ? <div><button onClick={() => remove(blog)}>{" remove "}</button></div> : null}
+        <a href={blog.url}><Typography>{blog.url}</Typography></a>
+        <Box display="flex" gap={1} alignItems="center">
+          <Typography>{blog.likes} likes</Typography>
+          <Button onClick={() => like(blog)} variant="contained" color="primary">like</Button>
+        </Box>
+        <Typography>added by {blog.user.name}</Typography>
+        {user.id === blog.user.id
+          ? <div>
+              <Button variant="contained" color="primary" onClick={() => remove(blog)}>remove</Button>
+            </div>
+          : null}
         <div>
-          <h3>comments</h3>
+          <h3>Comments</h3>
           <CommentField blog={blog}/>
-          <ul>
-            {blog.comments.map((comment) => (<li key={comment.toString()}>{comment}</li>))}
-          </ul>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableBody>
+                {blog.comments.map((comment) => (
+                  <TableRow>
+                    <TableCell>
+                      {comment}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       </div>
     </div>

@@ -18,7 +18,6 @@ const PageLayout = ({ children }) => (
   <RequireLogin>
     <NavBar/>
     <Notification/>
-    <h2>blogs</h2>
     {children}
   </RequireLogin>
 );
@@ -35,7 +34,6 @@ const RequireLogin = ({ children }) => {
 }
 
 const App = () => {
-  const [newBlogVisible, setNewBlogVisible] = useState(false);
   const [loadingUser, setLoadingUser] = useState(true);
   const dispatch = useDispatch()
 
@@ -80,22 +78,7 @@ const App = () => {
         <Route path="/"
                element={
          <PageLayout>
-           <br />
-           {newBlogVisible ? (
-             <NewBlog
-               setNewBlogVisible={setNewBlogVisible}
-             />
-           ) : (
-             <div>
-               <button
-                 data-testid="new-blog"
-                 onClick={() => setNewBlogVisible(true)}
-               >
-                 {" "}new blog{" "}
-               </button>
-               <BlogList/>
-             </div>
-           )}
+           <BlogList/>
          </PageLayout>
         }
         />
@@ -107,8 +90,15 @@ const App = () => {
           </PageLayout>
         }/>
 
+        {/* Create Blog */}
+        <Route path="/create" element={
+         <PageLayout>
+           <NewBlog/>
+         </PageLayout>
+       }/>
+
         {/* Login */}
-        <Route path="/login" element={<div><h2>blogs</h2><Notification/><LoginForm/></div>}/>
+        <Route path="/login" element={<div><NavBar/><h2>Login</h2><Notification/><LoginForm/></div>}/>
       </Routes>
     </div>
   );
