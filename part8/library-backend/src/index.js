@@ -93,7 +93,7 @@ const resolvers = {
     }
   },
   Author: {
-    bookCount: () => Book.collection.countDocuments(),
+    bookCount: (root) => Book.collection.countDocuments({ author: root._id }),
   }
 }
 
