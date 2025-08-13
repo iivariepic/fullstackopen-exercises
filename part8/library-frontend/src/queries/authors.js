@@ -15,7 +15,6 @@ mutation changeAuthor($name: String!, $setBornTo: Int!)
 {
   editAuthor(name: $name, setBornTo: $setBornTo) {
     name
-    id
     born
     bookCount
   }
