@@ -9,6 +9,7 @@ import Books from "./components/Books";
 import NewBook from "./components/NewBook";
 import EditAuthor from "./components/EditAuthor.jsx"
 import LogIn from "./components/LogIn.jsx"
+import { Recommendations } from "./components/Recommendations.jsx"
 const linkStyle = { margin: 5 }
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
           <>
             <Link style={linkStyle} to="/new-book">add book</Link>
             <Link style={linkStyle} to="/edit-author">edit-author</Link>
+            <Link style={linkStyle} to="/recommend">recommend</Link>
             <button onClick={logout}>logout</button>
           </>
           : <Link style={linkStyle} to="/login">login</Link>
@@ -42,6 +44,7 @@ const App = () => {
         <Route path="/new-book" element={<NewBook />} />
         <Route path="/edit-author" element={<EditAuthor />} />
         <Route path="/login" element={<LogIn setToken={setToken} token={token}/>} />
+        <Route path="/recommend" element={<Recommendations/>} />
       </Routes>
 
     </Router>
