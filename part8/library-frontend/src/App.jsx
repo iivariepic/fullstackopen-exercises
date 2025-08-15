@@ -3,13 +3,14 @@ import {
   BrowserRouter as Router,
   Routes, Route, Link
 } from 'react-router-dom'
-import { useApolloClient } from "@apollo/client"
+import { useApolloClient, useSubscription } from "@apollo/client"
 import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
 import EditAuthor from "./components/EditAuthor.jsx"
 import LogIn from "./components/LogIn.jsx"
 import { Recommendations } from "./components/Recommendations.jsx"
+import { BOOK_ADDED } from "./queries/subscriptions.js"
 const linkStyle = { margin: 5 }
 
 const App = () => {
@@ -21,6 +22,12 @@ const App = () => {
     localStorage.clear()
     await client.resetStore()
   }
+
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data }) => {
+      window.alert(`a book has been added: ${data.data.bookAdded.title}`)
+    }
+  })
 
   return (
     <Router>
