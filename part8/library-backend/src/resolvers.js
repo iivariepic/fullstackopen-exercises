@@ -21,7 +21,7 @@ const resolvers = {
     },
 
     authorCount: () => Author.collection.countDocuments(),
-    allAuthors: async () => Author.find({}),
+    allAuthors: async () => Author.find({}).populate('books'),
 
     me: (root, args, context) => {
       return context.currentUser
@@ -41,8 +41,9 @@ const resolvers = {
       const existingAuthor = await Author.findOne({ name: args.author })
 
       let book
+      let author
       if (!existingAuthor) {
-        const author = new Author({ name: args.author })
+        author = new Author({ name: args.author })
         try {
           await author.save()
         } catch (error) {
@@ -56,11 +57,16 @@ const resolvers = {
         }
         book = new Book({ ...args, author: author })
       } else {
+        author = existingAuthor
         book = new Book({ ...args, author: existingAuthor })
       }
 
       try {
         await book.save()
+
+        author.books = author.books.concat(book._id)
+        await author.save()
+
       } catch (error) {
         throw new GraphQLError('Book creation failed', {
           extensions: {
@@ -127,9 +133,6 @@ const resolvers = {
       subscribe: () => pubsub.asyncIterableIterator('BOOK_ADDED')
     }
   },
-  Author: {
-    bookCount: (root) => Book.collection.countDocuments({ author: root._id }),
-  }
 }
 
 module.exports = resolvers

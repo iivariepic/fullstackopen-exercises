@@ -5,7 +5,9 @@ query {
   allAuthors {
     name
     born
-    bookCount
+    books {
+        title
+    }
   }
 }
 `
@@ -16,7 +18,6 @@ mutation changeAuthor($name: String!, $setBornTo: Int!)
   editAuthor(name: $name, setBornTo: $setBornTo) {
     name
     born
-    bookCount
   }
 }
 `

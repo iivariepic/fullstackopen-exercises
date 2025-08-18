@@ -9,7 +9,7 @@ const typeDefs = `
   type Author {
     name: String!
     born: Int
-    bookCount: Int!
+    books: [Book!]!
   }
   
   type User {
