@@ -11,7 +11,28 @@ import EditAuthor from "./components/EditAuthor.jsx"
 import LogIn from "./components/LogIn.jsx"
 import { Recommendations } from "./components/Recommendations.jsx"
 import { BOOK_ADDED } from "./queries/subscriptions.js"
+import { ALL_BOOKS } from "./queries/books.js"
 const linkStyle = { margin: 5 }
+
+export const updateCache = (cache, query, addedBook) => {
+  const uniqueByTitle = (bookList) => {
+    const seen = new Set()
+    return bookList.filter(item => {
+      const title = item.title
+      return seen.has(title) ? false : seen.add(title)
+    })
+  }
+
+  cache.updateQuery(query, (data) => {
+    if (!data) {
+      return { allBooks: [addedBook] }
+    }
+
+    return {
+      allBooks: uniqueByTitle(data.allBooks.concat(addedBook))
+    }
+  })
+}
 
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem('library-user-token'))
@@ -24,8 +45,10 @@ const App = () => {
   }
 
   useSubscription(BOOK_ADDED, {
-    onData: ({ data }) => {
-      window.alert(`a book has been added: ${data.data.bookAdded.title}`)
+    onData: ({ data, client }) => {
+      const addedBook = data.data.bookAdded
+      window.alert(`a book has been added: ${addedBook.title}`)
+      updateCache(client.cache, { query: ALL_BOOKS }, addedBook)
     }
   })
 
