@@ -27,9 +27,13 @@ const parseArguments = (args: string[]): BmiValues => {
   }
 }
 
-try {
-  const { heightInCm , weightInKg } = parseArguments(process.argv)
-  console.log(calculateBmi(heightInCm, weightInKg))
-} catch (error) {
-  console.error(error)
+if (require.main === module) {
+  try {
+    const { heightInCm , weightInKg } = parseArguments(process.argv)
+    console.log(calculateBmi(heightInCm, weightInKg))
+  } catch (error) {
+    console.error(error)
+  }
 }
+
+export default calculateBmi
