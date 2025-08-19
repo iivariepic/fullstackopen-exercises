@@ -1,3 +1,10 @@
+import { arePositiveNumbers } from "./utils"
+
+interface CalculatorValues {
+  exerciseHours: number[]
+  target: number
+}
+
 interface ExerciseResult {
   periodLength: number
   trainingDays: number
@@ -17,7 +24,7 @@ const getRating = (target: number, average: number): { rating: number, descripti
 const calculateExercises = (dailyExerciseHours: number[], targetHourAverage: number): ExerciseResult => {
   const periodLength = dailyExerciseHours.length
   const average = periodLength > 0
-    ? dailyExerciseHours.reduce((prev, current) => prev + current) / periodLength
+    ? dailyExerciseHours.reduce((prev, current) => prev + current, 0) / periodLength
     : 0
 
   const rating = getRating(targetHourAverage, average)
@@ -33,4 +40,23 @@ const calculateExercises = (dailyExerciseHours: number[], targetHourAverage: num
   }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+const ARGUMENT_MINIMUM = 4
+const parseArguments = (args: string[]): CalculatorValues => {
+  if (args.length < ARGUMENT_MINIMUM) throw new Error(`Too few extra arguments: at least ${ARGUMENT_MINIMUM - 2} needed, ${args.length - 2} given`)
+
+  if (arePositiveNumbers(args.slice(2))) {
+    return {
+      exerciseHours: args.slice(3).map(argument => Number(argument)),
+      target: Number(args[2])
+    }
+  } else {
+    throw new Error('Provided values were not positive numbers!')
+  }
+}
+
+try {
+  const { exerciseHours, target } = parseArguments(process.argv)
+  console.log(calculateExercises(exerciseHours, target))
+} catch (error) {
+  console.error(error)
+}
