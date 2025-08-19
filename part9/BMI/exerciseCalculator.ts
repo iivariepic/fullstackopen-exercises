@@ -54,9 +54,13 @@ const parseArguments = (args: string[]): CalculatorValues => {
   }
 };
 
-try {
-  const { exerciseHours, target } = parseArguments(process.argv);
-  console.log(calculateExercises(exerciseHours, target));
-} catch (error) {
-  console.error(error);
+if (require.main === module) {
+  try {
+    const { exerciseHours, target } = parseArguments(process.argv);
+    console.log(calculateExercises(exerciseHours, target));
+  } catch (error) {
+    console.error(error);
+  }
 }
+
+export default calculateExercises
