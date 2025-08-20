@@ -1,6 +1,6 @@
 import express from 'express';
 import patientService from '../services/patientService'
-import { Patient } from "../types"
+import { validateNewPatient } from "../utils"
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ router.get('/', (_req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const patient: Omit<Patient, 'id'> = req.body
+  const patient = validateNewPatient(req.body)
   const addedPatient = patientService.create(patient)
   res.json(addedPatient)
 });
