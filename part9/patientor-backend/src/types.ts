@@ -1,3 +1,6 @@
+import { z } from "zod/index"
+import { NewPatientSchema } from "./utils"
+
 export enum Gender {
   Male = 'male',
   Female = 'female',
@@ -18,3 +21,5 @@ export interface Patient {
   gender: Gender
   occupation: string
 }
+
+export type NewPatient = z.infer<typeof NewPatientSchema>
