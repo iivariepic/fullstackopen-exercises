@@ -1,6 +1,5 @@
-import axios, { isAxiosError } from 'axios';
-import type { DiaryEntry } from "../types.ts"
-import { handleAxiosError } from "./utils.ts"
+import axios from 'axios';
+import type { DiaryEntry, NewDiaryEntry } from "../types.ts"
 
 const baseUrl = 'http://localhost:3000/api/diaries'
 
@@ -9,9 +8,15 @@ export const getAllDiaryEntries = async () => {
     const response = await axios.get<DiaryEntry[]>(baseUrl)
     return response.data
   } catch(error) {
-    if (isAxiosError(error)) {
-      handleAxiosError(error)
-    }
-    console.error(error)
+    throw error
+  }
+}
+
+export const createDiaryEntry = async (entry: NewDiaryEntry) => {
+  try {
+    const response = await axios.post<DiaryEntry>(baseUrl, entry)
+    return response.data
+  } catch(error) {
+    throw error
   }
 }
