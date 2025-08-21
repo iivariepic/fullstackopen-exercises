@@ -1,7 +1,5 @@
-interface CoursePart {
-  name: string
-  exerciseCount: number
-}
+import type { CoursePart } from "../App.tsx"
+import Part from "./Part.tsx"
 
 interface Props {
   parts: CoursePart[]
@@ -9,8 +7,7 @@ interface Props {
 
 const Content = ({ parts }: Props) => {
   return (
-    parts.map((coursePart, index) =>
-      <p key={index}>{coursePart.name} {coursePart.exerciseCount}</p>
+    parts.map((coursePart, index) => <Part coursePart={coursePart} key={index} />
     )
   )
 }
