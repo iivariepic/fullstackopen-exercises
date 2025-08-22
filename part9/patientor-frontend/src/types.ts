@@ -63,7 +63,18 @@ interface HospitalEntry extends BaseEntry {
   discharge: Discharge
 }
 
+export enum EntryTypes {
+  "HealthCheck" = "HealthCheck",
+  "Occupational" = "OccupationalHealthcare",
+  "Hospital" = "Hospital"
+}
+
 export type Entry =
   | HospitalEntry
   | OccupationalHealthcareEntry
   | HealthCheckEntry;
+
+export type EntryFormValues =
+  | Omit<HospitalEntry, "id">
+  | Omit<OccupationalHealthcareEntry, "id">
+  | Omit<HealthCheckEntry, "id">
