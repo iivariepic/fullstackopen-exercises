@@ -3,10 +3,9 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
 import { Patient } from "../../types.ts"
 import patientService from "../../services/patients";
+import EntriesList from "./EntriesList.tsx"
+import PatientHeader from "./PatientHeader.tsx"
 import PatientTable from "./PatientTable.tsx"
-import FemaleIcon from '@mui/icons-material/Female';
-import MaleIcon from '@mui/icons-material/Male';
-import TransgenderIcon from '@mui/icons-material/Transgender';
 
 const PatientPage = () => {
   const { patientId } = useParams<{ patientId: string }>();
@@ -22,12 +21,6 @@ const PatientPage = () => {
     fetchPatient()
   }, [patientId]);
 
-  const getGenderIcon = (gender: string) => {
-    if (gender.toLowerCase() == "male") return <MaleIcon />
-    if (gender.toLowerCase() == "female") return <FemaleIcon />
-    return <TransgenderIcon />
-  }
-
   return (
     <Box>
       <Typography align="center" variant="h6">
@@ -36,25 +29,12 @@ const PatientPage = () => {
       {patient
         ? (
           <Box>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              gap={1}
-              mt={2}
-              mb={2}
-            >
-              <Typography
-                sx={{
-                  fontWeight: 600,
-                  fontSize: "large"
-                }}
-              >
-                {patient.name}
-              </Typography>
-              {getGenderIcon(patient.gender)}
-            </Box>
-            <PatientTable patient={patient} />
+            <PatientHeader patient={patient} />
+            <PatientTable
+              tableTitles={["Date Of Birth", "SSN", "Occupation"]}
+              tableData={[patient.dateOfBirth, patient.ssn, patient.occupation]}
+            />
+            <EntriesList entries={patient.entries}/>
           </Box>)
         : <Typography>No patient found!</Typography>
       }

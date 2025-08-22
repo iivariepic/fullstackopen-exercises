@@ -1,13 +1,12 @@
+import React from "react"
 import { Table, TableBody, TableCell, TableRow, Paper, TableContainer } from "@mui/material"
-import { Patient } from "../../types.ts"
 
 interface Props {
-  patient : Patient
+  tableTitles: string[]
+  tableData: (string | React.ReactNode)[]
 }
 
-const PatientTable = ({ patient }: Props) => {
-  const tableTitles: string[] = ["Date Of Birth", "SSN", "Occupation"]
-  const tableData: string[] = [patient.dateOfBirth, patient.ssn, patient.occupation]
+const PatientTable = ({ tableTitles, tableData }: Props) => {
   const table = tableTitles.map((title, index) => {
     return { title, data: tableData[index] }
   })
@@ -19,6 +18,7 @@ const PatientTable = ({ patient }: Props) => {
         backgroundColor: "#F8F9FA",
         border: "1px solid #E4E7EB",
         borderRadius: 2,
+        mt: 3
       }}
     >
       <Table>
