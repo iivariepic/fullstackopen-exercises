@@ -1,6 +1,6 @@
 import express from 'express';
 import patientService from '../services/patientService'
-import { validateNewPatient } from "../utils"
+import { validateNewEntry, validateNewPatient } from "../utils"
 import { z } from 'zod';
 
 const router = express.Router();
@@ -23,6 +23,21 @@ router.post('/', (req, res) => {
     const patient = validateNewPatient(req.body)
     const addedPatient = patientService.create(patient)
     res.json(addedPatient)
+  } catch (error: unknown) {
+    if (error instanceof z.ZodError) {
+      res.status(400).send({ error: error.issues });
+    } else {
+      res.status(400).send({ error: 'unknown error' });
+    }
+  }
+});
+
+router.post('/:patientId/entries', (req, res) => {
+  try {
+    const { patientId } = req.params
+    const entry = validateNewEntry(req.body)
+    const addedEntry = patientService.createEntry(entry, patientId)
+    res.json(addedEntry)
   } catch (error: unknown) {
     if (error instanceof z.ZodError) {
       res.status(400).send({ error: error.issues });

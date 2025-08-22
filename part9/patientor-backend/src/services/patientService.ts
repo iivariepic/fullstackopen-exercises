@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import patientData from '../../data/patients';
-import { NewPatient, NonSensitivePatient, Patient } from "../types"
+import { Entry, NewEntry, NewPatient, NonSensitivePatient, Patient } from "../types"
 
 const patients: Patient[] = patientData
 
@@ -20,8 +20,22 @@ const create = (patient: NewPatient)=> {
   return newPatient
 }
 
+const createEntry = (entry: NewEntry, patientId: string): Entry | undefined => {
+  const newEntry = {
+    id: uuidv4(),
+    ...entry
+  }
+  const patient = patients.find(patient => patient.id === patientId)
+  if (!patient) return undefined
+  patient.entries.push(newEntry)
+
+  return newEntry
+}
+
+
 export default {
   getAllWithoutSsn,
   getById,
-  create
+  create,
+  createEntry
 };

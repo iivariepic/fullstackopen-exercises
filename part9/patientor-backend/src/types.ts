@@ -1,5 +1,5 @@
 import { z } from "zod/index"
-import { NewPatientSchema } from "./utils"
+import { NewEntrySchema, NewPatientSchema } from "./utils"
 
 export enum Gender {
   Male = 'male',
@@ -72,3 +72,4 @@ export interface Patient {
 
 export type NonSensitivePatient = Omit<Patient, 'ssn' | 'entries'>
 export type NewPatient = z.infer<typeof NewPatientSchema>
+export type NewEntry = z.infer<typeof NewEntrySchema>
