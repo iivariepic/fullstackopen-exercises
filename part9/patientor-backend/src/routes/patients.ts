@@ -9,6 +9,15 @@ router.get('/', (_req, res) => {
   res.send(patientService.getAllWithoutSsn())
 });
 
+router.get('/:patientId', (req, res) => {
+  const { patientId } = req.params
+  const patient = patientService.getById(patientId)
+  if (!patient) {
+    return res.status(404).send({ error: 'Patient not found' })
+  }
+  return res.json(patient)
+});
+
 router.post('/', (req, res) => {
   try {
     const patient = validateNewPatient(req.body)
