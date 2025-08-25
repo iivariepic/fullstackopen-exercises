@@ -12,6 +12,8 @@ import {
 import { useState } from "react"
 import { BaseEntry, Diagnosis, EntryFormValues, EntryTypes } from "../../types.ts"
 import HealthCheckForm from "./EntryTypeForms/HealthCheck.tsx"
+import Hospital from "./EntryTypeForms/Hospital.tsx"
+import OccupationalHealthcareForm from "./EntryTypeForms/OccupationalHealthcare.tsx"
 
 interface Props {
   onCancel: () => void;
@@ -25,14 +27,17 @@ const entryTypeOptions = Object.values(EntryTypes)
 const styleOptionText = (text: string) => {
   if (text === "HealthCheck") return "Health Checkup"
   if (text === "OccupationalHealthcare") return "Occupational Healthcare"
+  if (text === "Hospital") return "Hospital Visit"
   return text
 }
+
+const today = new Date().toISOString().split("T")[0];
 
 const AddEntryForm = ({ onCancel, onSubmit, diagnoses }: Props) => {
   const [selectedEntryType, setSelectedEntryType] = useState<EntryTypes>(EntryTypes.HealthCheck)
   const [baseData, setBaseData] = useState<BaseData>({
     description: "",
-    date: "",
+    date: today,
     specialist: "",
     diagnosisCodes: [],
   })
@@ -148,6 +153,20 @@ const AddEntryForm = ({ onCancel, onSubmit, diagnoses }: Props) => {
 
         {selectedEntryType === "HealthCheck" &&
           <HealthCheckForm
+            onSubmit={onSubmit}
+            onCancel={onCancel}
+            baseData={baseData}
+          />
+        }
+        {selectedEntryType === "OccupationalHealthcare" &&
+          <OccupationalHealthcareForm
+            onSubmit={onSubmit}
+            onCancel={onCancel}
+            baseData={baseData}
+          />
+        }
+        {selectedEntryType === "Hospital" &&
+          <Hospital
             onSubmit={onSubmit}
             onCancel={onCancel}
             baseData={baseData}

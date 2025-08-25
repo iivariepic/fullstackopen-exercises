@@ -18,19 +18,19 @@ export const validateNewEntry = (object: unknown): NewEntry => {
 }
 
 export const BaseEntrySchema = z.object({
-  description: z.string(),
+  description: z.string().min(1),
   date: z.iso.date(),
-  specialist: z.string(),
-  diagnosisCode: z.string().optional()
+  specialist: z.string().min(1),
+  diagnosisCodes: z.array(z.string()).optional()
 })
 
 export const NewOccupationalEntrySchema = z.object({
   type: z.literal("OccupationalHealthcare"),
-  employerName: z.string(),
+  employerName: z.string().min(1),
   sickLeave: z.object({
     startDate: z.iso.date(),
     endDate: z.iso.date(),
-  })
+  }).optional()
 })
 
 export const NewHealthCheckEntrySchema = z.object({
@@ -42,7 +42,7 @@ export const NewHospitalEntrySchema = z.object({
   type: z.literal("Hospital"),
   discharge: z.object({
     date: z.iso.date(),
-    criteria: z.string()
+    criteria: z.string().min(1)
   })
 })
 

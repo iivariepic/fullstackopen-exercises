@@ -1,4 +1,5 @@
-import { Box, Button, Typography } from "@mui/material"
+import { Box, Button, Typography, Snackbar, Alert } from "@mui/material"
+import { isAxiosError } from "axios"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
 import diagnosisService from "../../services/diagnoses.ts"
@@ -14,6 +15,8 @@ const PatientPage = () => {
   const [patient, setPatient] = useState<Patient | null>(null)
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([])
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>('');
 
   const openModal = (): void => setModalOpen(true);
 
@@ -34,6 +37,12 @@ const PatientPage = () => {
       );
     } catch (error) {
       console.error(error)
+      if (isAxiosError(error)) {
+        const issues = error.response?.data?.error as Array || []
+        const messages = issues.map(issue => `${issue?.path[0]}: ${issue?.message}`)
+        setSnackbarMessage(messages.join(", "))
+      } else setSnackbarMessage("Failed to Create entry");
+      setSnackbarOpen(true);
     }
   }
 
@@ -85,6 +94,16 @@ const PatientPage = () => {
           </Box>)
         : <Typography>No patient found!</Typography>
       }
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={5000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert severity="error" onClose={() => setSnackbarOpen(false)}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   )
 }
