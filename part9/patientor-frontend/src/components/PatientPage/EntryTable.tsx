@@ -1,15 +1,19 @@
-import React, { useEffect, useState, useMemo } from "react"
+import React, { useMemo } from "react"
 import { Box } from "@mui/material"
 import { Diagnosis, Entry } from "../../types.ts"
 import PatientTable from "./PatientTable.tsx"
-import diagnosisService from "../../services/diagnoses";
 import WorkIcon from '@mui/icons-material/Work';
 import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-const EntryTable = ({ entry }: { entry: Entry }) => {
+interface Props {
+  entry: Entry
+  diagnoses: Diagnosis[]
+}
+
+const EntryTable = ({ entry, diagnoses }: Props) => {
   const matchTypeToIcon = (type: Entry["type"]) => {
     switch (type) {
       case "OccupationalHealthcare":
@@ -26,15 +30,6 @@ const EntryTable = ({ entry }: { entry: Entry }) => {
   const tableTitles: string[] = ["Type", "Date", "Description"]
   const tableData: (string | React.ReactNode)[] =
     [matchTypeToIcon(entry.type), entry.date, entry.description]
-  const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([])
-
-  useEffect(() => {
-    const fetchDiagnoses = async () => {
-      const allDiagnoses = await diagnosisService.getAll()
-      setDiagnoses(allDiagnoses)
-    }
-    fetchDiagnoses()
-  }, [])
 
   const diagnosesMap = useMemo(
     () => Object.fromEntries(diagnoses.map(d => [d.code, d])),

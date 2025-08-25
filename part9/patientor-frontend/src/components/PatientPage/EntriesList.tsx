@@ -1,12 +1,13 @@
 import { Typography, Box } from "@mui/material"
-import { Entry } from "../../types.ts";
+import { Diagnosis, Entry } from "../../types.ts";
 import EntryTable from "./EntryTable.tsx"
 
 interface Props {
   entries: Entry[]
+  diagnoses: Diagnosis[]
 }
 
-const EntriesList = ({ entries }: Props) => {
+const EntriesList = ({ entries, diagnoses }: Props) => {
   return (
     <Box mt={4}>
       <Typography
@@ -18,7 +19,9 @@ const EntriesList = ({ entries }: Props) => {
       >
         Entries
       </Typography>
-      {entries.map(entry => <EntryTable entry={entry} key={entry.id}/>)}
+      {entries.map(entry =>
+        <EntryTable entry={entry} key={entry.id} diagnoses={diagnoses}/>)
+      }
       {entries.length === 0 &&
         <Typography
           sx={{

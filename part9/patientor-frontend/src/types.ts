@@ -22,7 +22,7 @@ export interface Patient {
 
 export type PatientFormValues = Omit<Patient, "id" | "entries">;
 
-interface BaseEntry {
+export interface BaseEntry {
   id: string;
   description: string;
   date: string;
