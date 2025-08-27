@@ -6,7 +6,7 @@ import { numberToSimplifiedString } from "../utlis"
 const styles = StyleSheet.create({
   container: {
     padding: 5,
-    backgroundColor: "white",
+    backgroundColor: theme.colors.contentBackground,
   },
   rowContainer: {
     display: "flex",
