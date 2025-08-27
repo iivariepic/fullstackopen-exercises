@@ -1,5 +1,6 @@
 import { useFormik } from "formik"
 import { Keyboard, Pressable, StyleSheet, TextInput, View } from "react-native"
+import * as yup from 'yup';
 
 import Text from './Text';
 import theme from "../theme"
@@ -9,6 +10,15 @@ const initialValues = {
   password: '',
 }
 
+const validationSchema = yup.object().shape({
+  username: yup
+    .string()
+    .required("Username is required"),
+  password: yup
+    .string()
+    .required("Password is required"),
+})
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.contentBackground,
@@ -16,8 +26,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "center",
-    gap: 15,
+    gap: 20,
     padding: 15
+  },
+  textFieldContainer: {
+    width: "100%",
+    gap: 5
   },
   textField: {
     borderRadius: 5,
@@ -30,6 +44,9 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontSize: theme.fontSizes.subheading,
     color: theme.colors.textPrimary
+  },
+  textFieldError: {
+    borderColor: theme.colors.error,
   },
   button: {
     borderRadius: 5,
@@ -48,26 +65,43 @@ const SignIn = () => {
 
   const formik = useFormik({
     initialValues,
+    validationSchema,
     onSubmit
   })
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.textField}
-        placeholder="Username"
-        textContentType="nickname"
-        value={formik.values.username}
-        onChangeText={formik.handleChange('username')}
-      />
-      <TextInput
-        style={styles.textField}
-        placeholder="Password"
-        textContentType="password"
-        secureTextEntry
-        value={formik.values.password}
-        onChangeText={formik.handleChange('password')}
-      />
+      <View style={styles.textFieldContainer}>
+        <TextInput
+          style={[
+            styles.textField,
+            formik.touched.username && formik.errors.username && styles.textFieldError,
+          ]}
+          placeholder="Username"
+          textContentType="nickname"
+          value={formik.values.username}
+          onChangeText={formik.handleChange('username')}
+        />
+        {formik.touched.username && formik.errors.username && (
+          <Text color="error" style={{ alignSelf: "left" }}>{formik.errors.username}</Text>
+        )}
+      </View>
+      <View style={styles.textFieldContainer}>
+        <TextInput
+          style={[
+            styles.textField,
+            formik.touched.password && formik.errors.password && styles.textFieldError,
+          ]}
+          placeholder="Password"
+          textContentType="password"
+          secureTextEntry
+          value={formik.values.password}
+          onChangeText={formik.handleChange('password')}
+        />
+        {formik.touched.password && formik.errors.password && (
+          <Text color="error" style={{ alignSelf: "left" }}>{formik.errors.password}</Text>
+        )}
+      </View>
       <Pressable
         onPress={() => formik.handleSubmit()}
         style={({ pressed }) => [
