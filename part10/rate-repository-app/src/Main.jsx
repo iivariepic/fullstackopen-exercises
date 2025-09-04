@@ -1,10 +1,10 @@
 import { Keyboard, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { Route, Routes, Navigate } from 'react-router-native';
 
-import RepositoryList from "./RepositoryList"
-import AppBar from "./AppBar"
-import theme from "../theme"
-import SignIn from "./SignIn"
+import RepositoryList from "./components/RepositoryList"
+import AppBar from "./components/AppBar"
+import theme from "./theme"
+import SignIn from "./components/SignIn"
 
 const styles = StyleSheet.create({
   container: {

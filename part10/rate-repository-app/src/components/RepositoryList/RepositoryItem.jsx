@@ -1,7 +1,7 @@
 import { Image, StyleSheet, View } from "react-native"
-import Text from "./Text"
-import theme from "../theme"
-import { numberToSimplifiedString } from "../utlis"
+import Text from "../Text"
+import theme from "../../theme"
+import { numberToSimplifiedString } from "../../utils/numberToSimplifiedString"
 
 const styles = StyleSheet.create({
   container: {
